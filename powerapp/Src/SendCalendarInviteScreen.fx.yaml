@@ -1,0 +1,248 @@
+SendCalendarInviteScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: =
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Rectangle2_11 As rectangle:
+        DisabledFill: =Rectangle2_11.Fill
+        Fill: =RGBA(224, 223, 255, 1)
+        FocusedBorderColor: =Rectangle2_11.BorderColor
+        Height: =110
+        HoverFill: =Rectangle2_11.Fill
+        PressedFill: =Rectangle2_11.Fill
+        Width: =1366
+        ZIndex: =1
+
+    icon3_8 As icon.ChevronLeft:
+        AccessibleLabel: ="Previous page"
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledFill: =icon3_8.Fill
+        FocusedBorderColor: =icon3_8.BorderColor
+        Height: =100
+        HoverBorderColor: =ColorFade(icon3_8.BorderColor, 20%)
+        HoverColor: =ColorFade(icon3_8.Color, 20%)
+        HoverFill: =icon3_8.Fill
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Back()
+        PaddingBottom: =25
+        PaddingLeft: =25
+        PaddingRight: =25
+        PaddingTop: =25
+        PressedBorderColor: =ColorFade(icon3_8.BorderColor, -20%)
+        PressedColor: =ColorFade(icon3_8.Color, -20%)
+        PressedFill: =icon3_8.Fill
+        TabIndex: =0
+        Width: =89
+        ZIndex: =11
+
+    NextButton_9 As button:
+        BorderColor: =ColorFade(NextButton_9.Fill, -50%)
+        DisabledBorderColor: =ColorFade(NextButton_9.BorderColor, 70%)
+        DisplayMode: =If(CountRows(ContactsComboBox_1.SelectedItems) > 0, Edit, Disabled)
+        Fill: =RGBA(80, 55, 255, 1)
+        FocusedBorderColor: =NextButton_9.BorderColor
+        Height: =51
+        HoverBorderColor: =ColorFade(NextButton_9.BorderColor, 20%)
+        HoverColor: =NextButton_9.Color
+        HoverFill: =ColorFade(NextButton_9.Fill, 20%)
+        OnSelect: |
+            =Concurrent(
+                Office365.V2CalendarPatchItem(_myCalendarID, _createdCalendarEvent.Id, _createdCalendarEvent.Subject, _createdCalendarEvent.Start, _createdCalendarEvent.End, {RequiredAttendees: Concat(ContactsComboBox_1.SelectedItems, UserPrincipalName & ";"), ShowAs: "Free", Body:EventBody.HtmlText, IsHtml: true }),
+                Set(_inviteeCount, CountRows(ContactsComboBox_1.SelectedItems)));
+                Navigate(SuccessScreen, None, {_sendingInvite: true})
+        PressedBorderColor: =NextButton_9.Fill
+        PressedColor: =NextButton_9.Fill
+        PressedFill: =NextButton_9.Color
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =14
+        Text: ="Done"
+        Width: =141
+        X: =1158
+        Y: =687
+        ZIndex: =19
+
+    Label2_1 As label:
+        Align: =Center
+        FocusedBorderColor: =Label2_1.BorderColor
+        Font: =Font.Lato
+        FontWeight: =Semibold
+        Height: =110
+        HoverBorderColor: =Label2_1.BorderColor
+        HoverColor: =Label2_1.Color
+        HoverFill: =Label2_1.Fill
+        PressedBorderColor: =Label2_1.BorderColor
+        PressedColor: =Label2_1.Color
+        PressedFill: =Label2_1.Fill
+        Size: =14
+        Text: ="Send calendar invite"
+        Width: =882
+        X: =Parent.Width / 2 - Label2_1.Width / 2
+        ZIndex: =20
+
+    Label7_5 As label:
+        FocusedBorderColor: =Label7_5.BorderColor
+        Font: =Font.Lato
+        Height: =37
+        HoverBorderColor: =Label7_5.BorderColor
+        HoverColor: =Label7_5.Color
+        HoverFill: =Label7_5.Fill
+        PressedBorderColor: =Label7_5.BorderColor
+        PressedColor: =Label7_5.Color
+        PressedFill: =Label7_5.Fill
+        Size: =14
+        Text: ="Subject"
+        Width: =313
+        X: =67
+        Y: =129
+        ZIndex: =21
+
+    EventSubjectInput As text:
+        AccessibleLabel: ="Event subject"
+        BorderColor: =RGBA(151, 151, 151, 1)
+        Default: =_oOFRecord.Title
+        FocusedBorderColor: =EventSubjectInput.BorderColor
+        Font: =Font.Lato
+        Height: =53
+        PressedBorderColor: =EventSubjectInput.HoverBorderColor
+        PressedColor: =EventSubjectInput.Color
+        PressedFill: =EventSubjectInput.Fill
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =14
+        Width: =535
+        X: =67
+        Y: =177
+        ZIndex: =22
+
+    Label7_6 As label:
+        FocusedBorderColor: =Label7_6.BorderColor
+        Font: =Font.Lato
+        Height: =44
+        HoverBorderColor: =Label7_6.BorderColor
+        HoverColor: =Label7_6.Color
+        HoverFill: =Label7_6.Fill
+        PressedBorderColor: =Label7_6.BorderColor
+        PressedColor: =Label7_6.Color
+        PressedFill: =Label7_6.Fill
+        Size: =14
+        Text: ="Message"
+        Width: =313
+        X: =67
+        Y: =252
+        ZIndex: =23
+
+    EventBody As richTextEditor:
+        AccessibleLabel: ="Event message body"
+        Default: =_internalMessage
+        Height: =299
+        Width: =535 
+        X: =67
+        Y: =309
+        ZIndex: =24
+
+    Label7_7 As label:
+        FocusedBorderColor: =Label7_7.BorderColor
+        Font: =Font.Lato
+        FontWeight: =Bold
+        Height: =37
+        HoverBorderColor: =Label7_7.BorderColor
+        HoverColor: =Label7_7.Color
+        HoverFill: =Label7_7.Fill
+        PressedBorderColor: =Label7_7.BorderColor
+        PressedColor: =Label7_7.Color
+        PressedFill: =Label7_7.Fill
+        Size: =14
+        Text: |-
+            ="Send to " & CountRows(MyPeople) & " recipients: "
+        Width: =313
+        X: =Parent.Width / 2 + 67
+        Y: =Label7_5.Y
+        ZIndex: =25
+
+    Label7_8 As label:
+        FocusedBorderColor: =Label7_8.BorderColor
+        Font: =Font.Lato
+        FontWeight: =Normal
+        Height: =48
+        HoverBorderColor: =Label7_8.BorderColor
+        HoverColor: =Label7_8.Color
+        HoverFill: =Label7_8.Fill
+        PressedBorderColor: =Label7_8.BorderColor
+        PressedColor: =Label7_8.Color
+        PressedFill: =Label7_8.Fill
+        Size: =14
+        Text: ="This calendar event will show as ""free"""
+        Width: =594
+        X: =750
+        Y: =166
+        ZIndex: =26
+
+    ContactsComboBox_1 As combobox:
+        AccessibleLabel: ="Search for contacts"
+        BorderColor: =RGBA(80, 55, 255, 1)
+        ChevronBackground: =RGBA(80, 55, 255, 1)
+        ChevronHoverBackground: =ColorFade(ContactsComboBox_1.ChevronBackground, 20%)
+        ChevronHoverFill: =ContactsComboBox_1.ChevronFill
+        DefaultSelectedItems: =CurrentAltContacts
+        DisplayFields: =["DisplayName"]
+        FocusedBorderColor: =ContactsComboBox_1.BorderColor
+        Font: =Font.Lato
+        Height: =47
+        HoverBorderColor: =ColorFade(ContactsComboBox_1.BorderColor, 15%)
+        HoverColor: =ContactsComboBox_1.Color
+        InputTextPlaceholder: ="Find contacts"
+        Items: =MyPeople
+        MoreItemsButtonColor: =ContactsComboBox_1.ChevronBackground
+        OnChange: |-
+            =//update the CurrentAltContacts to reflect the user made changes
+            ClearCollect(CurrentAltContacts, ContactsComboBox_1.SelectedItems);
+            //remove the contact from the AltContactMessages collection if the user removed them from the CurrentAltContacts collection
+            RemoveIf(AltContactMessages, IsBlank(LookUp(CurrentAltContacts, UserPrincipalName = AltContactId)));
+            //Add another row to AltContactMessages if user added a new person to CurrentAltContacts 
+            Collect(AltContactMessages, 
+                AddColumns(RenameColumns(Filter(CurrentAltContacts, !(UserPrincipalName in AltContactMessages.AltContactId)), "UserPrincipalName", "AltContactId"),
+                    "EmailURL", "<li><a href=mailto:" & AltContactId & ">" & DisplayName & "</a>", "Message", ""))
+        PressedBorderColor: =ContactsComboBox_1.HoverBorderColor
+        PressedColor: =ContactsComboBox_1.Color
+        PressedFill: =ColorFade(ContactsComboBox_1.SelectionFill, -30%)
+        SearchFields: =["DisplayName"]
+        SearchItems: =Search(MyPeople,ContactsComboBox_1.SearchText,"DisplayName")
+        SelectionTagColor: =ContactsComboBox_1.HoverColor
+        SelectionTagFill: =RGBA(224, 223, 255, 1)
+        Size: =14
+        Width: =394
+        X: =750
+        Y: =309
+        ZIndex: =27
+
+    AddContactButton_1 As button:
+        BorderColor: =RGBA(80, 55, 255, 1)
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledBorderColor: =ColorFade(AddContactButton_1.BorderColor, 70%)
+        DisplayMode: =Edit
+        Fill: =White
+        FocusedBorderColor: =AddContactButton_1.BorderColor
+        Height: =44
+        HoverBorderColor: =ColorFade(AddContactButton_1.BorderColor, 20%)
+        HoverColor: =AddContactButton_1.Color
+        HoverFill: =ColorFade(AddContactButton_1.Fill, 20%)
+        OnSelect: =Navigate(AddContactsScreen, None)
+        PressedBorderColor: =AddContactButton_1.Fill
+        PressedColor: =AddContactButton_1.Fill
+        PressedFill: =AddContactButton_1.Color
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: ="Add Contact"
+        Width: =120
+        X: =1024
+        Y: =252
+        ZIndex: =28
+

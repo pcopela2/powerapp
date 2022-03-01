@@ -1,0 +1,102 @@
+SuccessScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: =
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Rectangle7 As rectangle:
+        DisabledFill: =Rectangle7.Fill
+        Fill: =RGBA(0,0,0,0)
+        FocusedBorderColor: =Rectangle7.BorderColor
+        Height: =768
+        HoverFill: =Rectangle7.Fill
+        OnSelect: =Select(CloseIcon)
+        PressedFill: =Rectangle7.Fill
+        Width: =1366
+        ZIndex: =1
+
+    CloseIcon As icon.Cancel:
+        AccessibleLabel: ="Navigate back to main screen"
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledFill: =CloseIcon.Fill
+        FocusedBorderColor: =CloseIcon.BorderColor
+        HoverBorderColor: =ColorFade(CloseIcon.BorderColor, 20%)
+        HoverColor: =ColorFade(CloseIcon.Color, 20%)
+        HoverFill: =CloseIcon.Fill
+        Icon: =Icon.Cancel
+        OnSelect: =Navigate(WelcomeScreen, None)
+        PressedBorderColor: =ColorFade(CloseIcon.BorderColor, -20%)
+        PressedColor: =ColorFade(CloseIcon.Color, -20%)
+        PressedFill: =CloseIcon.Fill
+        TabIndex: =0
+        X: =1281
+        Y: =21
+        ZIndex: =2
+
+    Label23 As label:
+        Align: =Center
+        FocusedBorderColor: =Label23.BorderColor
+        Font: =Font.'Lato Light'
+        Height: =103
+        HoverBorderColor: =Label23.BorderColor
+        HoverColor: =Label23.Color
+        HoverFill: =Label23.Fill
+        OnSelect: =Select(CloseIcon)
+        PressedBorderColor: =Label23.BorderColor
+        PressedColor: =Label23.Color
+        PressedFill: =Label23.Fill
+        Size: =44
+        Text: ="Success!"
+        Width: =560
+        X: =403
+        Y: =373
+        ZIndex: =3
+
+    Label24 As label:
+        Align: =Center
+        FocusedBorderColor: =Label24.BorderColor
+        Height: =70
+        HoverBorderColor: =Label24.BorderColor
+        HoverColor: =Label24.Color
+        HoverFill: =Label24.Fill
+        OnSelect: =Select(CloseIcon)
+        PressedBorderColor: =Label24.BorderColor
+        PressedColor: =Label24.Color
+        PressedFill: =Label24.Fill
+        Size: =21
+        Text: =If(_sendingInvite, "Your calendar invite has been sent", "You have cleared " & _clearedEventsCount & " conflicts.")
+        Width: =560
+        X: =403
+        Y: =498
+        ZIndex: =4
+
+    Circle1_1 As circle:
+        DisabledFill: =Circle1_1.Fill
+        DisplayMode: =DisplayMode.View
+        Fill: =RGBA(224, 223, 255, 1)
+        FocusedBorderColor: =Circle1_1.BorderColor
+        Height: =140
+        HoverFill: =Circle1_1.Fill
+        PressedFill: =Circle1_1.Fill
+        Width: =140
+        X: =613
+        Y: =185
+        ZIndex: =5
+
+    Image8 As image:
+        FocusedBorderColor: =Image8.BorderColor
+        Height: =Circle1_1.Height
+        HoverBorderColor: =ColorFade(Image8.BorderColor, 20%)
+        HoverFill: =ColorFade(Image8.Fill, 20%)
+        Image: =If(_sendingInvite, 'send-calendar-invite-active@3x_new', 'clear-calendar-active@3x_new')
+        OnSelect: =Select(CloseIcon)
+        PaddingBottom: =30
+        PaddingLeft: =30
+        PaddingRight: =30
+        PaddingTop: =30
+        PressedBorderColor: =ColorFade(Image8.BorderColor, -20%)
+        PressedFill: =ColorFade(Image8.Fill, -20%)
+        Width: =Circle1_1.Width
+        X: =Circle1_1.X
+        Y: =Circle1_1.Y
+        ZIndex: =6
+

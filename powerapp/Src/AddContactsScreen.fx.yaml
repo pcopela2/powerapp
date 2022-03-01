@@ -1,0 +1,218 @@
+AddContactsScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: =
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Rectangle2_10 As rectangle:
+        DisabledFill: =Rectangle2_10.Fill
+        Fill: =RGBA(224, 223, 255, 1)
+        FocusedBorderColor: =Rectangle2_10.BorderColor
+        Height: =110
+        HoverFill: =Rectangle2_10.Fill
+        PressedFill: =Rectangle2_10.Fill
+        Width: =1366
+        ZIndex: =1
+
+    icon3_7 As icon.ChevronLeft:
+        AccessibleLabel: ="Previous page"
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledFill: =icon3_7.Fill
+        FocusedBorderColor: =icon3_7.BorderColor
+        Height: =100
+        HoverBorderColor: =ColorFade(icon3_7.BorderColor, 20%)
+        HoverColor: =ColorFade(icon3_7.Color, 20%)
+        HoverFill: =icon3_7.Fill
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Back()
+        PaddingBottom: =25
+        PaddingLeft: =25
+        PaddingRight: =25
+        PaddingTop: =25
+        PressedBorderColor: =ColorFade(icon3_7.BorderColor, -20%)
+        PressedColor: =ColorFade(icon3_7.Color, -20%)
+        PressedFill: =icon3_7.Fill
+        TabIndex: =0
+        Width: =89
+        ZIndex: =11
+
+    NextButton_8 As button:
+        BorderColor: =ColorFade(NextButton_8.Fill, -50%)
+        DisabledBorderColor: =ColorFade(NextButton_8.BorderColor, 70%)
+        DisplayMode: =Edit
+        Fill: =RGBA(80, 55, 255, 1)
+        FocusedBorderColor: =NextButton_8.BorderColor
+        Height: =51
+        HoverBorderColor: =ColorFade(NextButton_8.BorderColor, 20%)
+        HoverColor: =NextButton_8.Color
+        HoverFill: =ColorFade(NextButton_8.Fill, 20%)
+        OnSelect: |-
+            =Reset(ContactsComboBox); 
+            Reset(ContactsComboBox_1);
+            Reset(TextSearchBox1);
+            Back()
+        PressedBorderColor: =NextButton_8.Fill
+        PressedColor: =NextButton_8.Fill
+        PressedFill: =NextButton_8.Color
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =14
+        Text: ="Done"
+        Width: =141
+        X: =1158
+        Y: =687
+        ZIndex: =19
+
+    Label2 As label:
+        Align: =Center
+        FocusedBorderColor: =Label2.BorderColor
+        Font: =Font.Lato
+        FontWeight: =Semibold
+        Height: =110
+        HoverBorderColor: =Label2.BorderColor
+        HoverColor: =Label2.Color
+        HoverFill: =Label2.Fill
+        PressedBorderColor: =Label2.BorderColor
+        PressedColor: =Label2.Color
+        PressedFill: =Label2.Fill
+        Size: =14
+        Text: ="Add a contact"
+        Width: =882
+        X: =Parent.Width / 2 - Label2.Width / 2
+        ZIndex: =20
+
+    TextSearchBox1 As text:
+        AccessibleLabel: ="Search for a contact"
+        BorderColor: =RGBA(80, 55, 255, 1)
+        Default: =""
+        FocusedBorderColor: =TextSearchBox1.BorderColor
+        Height: =70
+        HintText: ="Search for a contact"
+        PressedBorderColor: =TextSearchBox1.HoverBorderColor
+        PressedColor: =TextSearchBox1.Color
+        PressedFill: =TextSearchBox1.Fill
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =14
+        Width: =560
+        X: =403
+        Y: =126
+        ZIndex: =21
+
+    UserBrowseGallery1 As gallery.PeoplePickerGallery:
+        AccessibleLabel: ="User look up search results"
+        DisabledBorderColor: =UserBrowseGallery1.BorderColor
+        DisabledFill: =UserBrowseGallery1.Fill
+        Fill: =TextSearchBox1.Fill
+        Height: =495
+        HoverBorderColor: =UserBrowseGallery1.BorderColor
+        HoverFill: =UserBrowseGallery1.Fill
+        Items: |-
+            =If(!IsBlank(Trim(TextSearchBox1.Text)), Office365Users.SearchUser({searchTerm: Trim(TextSearchBox1.Text), top: 15}))
+        Layout: =Layout.Vertical
+        OnSelect: |-
+            =/*Select user, clear search contents and if this user hasn't been added to MyPeople collection, add them*/
+            
+            Concurrent(
+                If(!(ThisItem.Id in MyPeople.Id), Collect(MyPeople, ThisItem)),
+                Collect(CurrentAltContacts, ThisItem);
+                Collect(AltContactMessages,
+                    AddColumns(RenameColumns(Filter(CurrentAltContacts, !(UserPrincipalName in AltContactMessages.AltContactId)), "UserPrincipalName", "AltContactId"),
+                            "EmailURL", "<li><a href=mailto:" & AltContactId & ">" & DisplayName & "</a>", "Message", "", "PlainTextMessage", "regarding "))
+                            
+            )
+        PressedBorderColor: =UserBrowseGallery1.BorderColor
+        PressedFill: =UserBrowseGallery1.Fill
+        TemplateFill: =If(ThisItem.UserPrincipalName in MyPeople.UserPrincipalName, RGBA(224, 223, 255, 1), RGBA(0,0,0,0))
+        TemplatePadding: =0
+        TemplateSize: =88
+        Visible: =!IsBlank(Trim(TextSearchBox1.Text))
+        Width: =560
+        X: =403
+        Y: =216
+        ZIndex: =22
+
+        Title2 As label:
+            BorderColor: =Title2.Color
+            Fill: =RGBA(0,0,0,0)
+            FocusedBorderColor: =Title2.BorderColor
+            FocusedBorderThickness: =2
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            HoverBorderColor: =Title2.BorderColor
+            HoverColor: =Title2.Color
+            HoverFill: =Title2.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =Title2.BorderColor
+            PressedColor: =Title2.Color
+            PressedFill: =Title2.Fill
+            Size: =14
+            TabIndex: =0
+            Text: =ThisItem.DisplayName
+            VerticalAlign: =Middle
+            Width: =331
+            Wrap: =false
+            X: =10
+            Y: =12
+            ZIndex: =4
+
+        Subtitle1 As label:
+            FocusedBorderColor: =Subtitle1.BorderColor
+            FocusedBorderThickness: =2
+            Height: =Subtitle1.Size * 1.8
+            HoverBorderColor: =Subtitle1.BorderColor
+            HoverColor: =Subtitle1.Color
+            HoverFill: =Subtitle1.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =Subtitle1.BorderColor
+            PressedColor: =Subtitle1.Color
+            PressedFill: =Subtitle1.Fill
+            Text: =ThisItem.UserPrincipalName
+            VerticalAlign: =Middle
+            Width: =Title2.Width
+            Wrap: =false
+            X: =Title2.X
+            Y: =44
+            ZIndex: =5
+
+        Separator2 As rectangle:
+            DisabledFill: =Separator2.Fill
+            FocusedBorderColor: =Separator2.BorderColor
+            Height: =1
+            HoverFill: =Separator2.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Separator2.Fill
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =6
+
+        icon6_1 As icon.Cancel:
+            AccessibleLabel: ="Remove user"
+            Color: =RGBA(0, 0, 0, 1)
+            DisabledFill: =icon6_1.Fill
+            DisplayMode: =If(ThisItem.UserPrincipalName in AltContactMessages.AltContactId, DisplayMode.Edit, Disabled)
+            FocusedBorderColor: =icon6_1.BorderColor
+            FocusedBorderThickness: =02
+            Height: =55
+            HoverBorderColor: =ColorFade(icon6_1.BorderColor, 20%)
+            HoverColor: =ColorFade(icon6_1.Color, 20%)
+            HoverFill: =icon6_1.Fill
+            Icon: =Icon.Cancel
+            OnSelect: |-
+                =RemoveIf(CurrentAltContacts, UserPrincipalName = ThisItem.UserPrincipalName);
+                RemoveIf(AltContactMessages, AltContactId = ThisItem.UserPrincipalName)
+            PaddingBottom: =icon6_1.PaddingTop
+            PaddingLeft: =icon6_1.PaddingTop
+            PaddingRight: =icon6_1.PaddingTop
+            PaddingTop: =10
+            PressedBorderColor: =ColorFade(icon6_1.BorderColor, -20%)
+            PressedColor: =ColorFade(icon6_1.Color, -20%)
+            PressedFill: =icon6_1.Fill
+            TabIndex: =0
+            Width: =55
+            X: =486
+            ZIndex: =7
+

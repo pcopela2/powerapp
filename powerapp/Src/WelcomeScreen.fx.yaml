@@ -1,0 +1,721 @@
+WelcomeScreen As screen:
+    Fill: =RGBA(255, 255, 255, 1)
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: =
+    Width: =Max(App.Width, App.DesignWidth)
+
+    InitialStateGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =20
+        ZIndex: =11
+
+        Rectangle1 As rectangle:
+            DisabledFill: =Rectangle1.Fill
+            DisplayMode: =DisplayMode.Disabled
+            Fill: =RGBA(230, 227, 230, 1)
+            FocusedBorderColor: =Rectangle1.BorderColor
+            FocusedBorderThickness: =0
+            Height: =768
+            HoverFill: =Rectangle1.Fill
+            PressedFill: =Rectangle1.Fill
+            Visible: =!_createdOOF
+            Width: =640
+            X: =726
+            ZIndex: =6
+
+        Label3 As label:
+            Align: =Center
+            FocusedBorderColor: =Label3.BorderColor
+            Font: =Font.Lato
+            FontWeight: =Semibold
+            Height: =106
+            HoverBorderColor: =Label3.BorderColor
+            HoverColor: =Label3.Color
+            HoverFill: =Label3.Fill
+            PaddingLeft: =30
+            PressedBorderColor: =Label3.BorderColor
+            PressedColor: =Label3.Color
+            PressedFill: =Label3.Fill
+            Size: =20
+            Text: ="Select an event from your calendar"
+            Visible: =!_createdOOF
+            Width: =640
+            X: =726
+            ZIndex: =8
+
+        EventsGallery As gallery.galleryVertical:
+            AccessibleLabel: ="Future events greater than 6 hours in length"
+            DisabledBorderColor: =EventsGallery.BorderColor
+            DisabledFill: =EventsGallery.Fill
+            Height: =662
+            HoverBorderColor: =EventsGallery.BorderColor
+            HoverFill: =EventsGallery.Fill
+            Items: |
+                =//calendar events where the length is greater than 6 hours may be an OOF event user previously created.
+                Filter(FutureCalendarEvents, DateDiff(DateTimeValue(Start), DateTimeValue(End), Hours) >= 6)
+            Layout: =Layout.Vertical
+            OnSelect: |-
+                =ClearCollect(TempSelectedEvent, ThisItem);
+                //sets the _selectedCalendarEvent variable to the currently selected event, and adds the "StartMinutes" and "EndMinutes" columns to it
+                Set(_selectedCalendarEvent, First(AddColumns(TempSelectedEvent, 
+                    "StartMinutes", DateDiff(DateValue(ThisItem.Start), DateTimeValue(ThisItem.Start), Minutes), 
+                    "EndMinutes", DateDiff(DateValue(ThisItem.End), DateTimeValue(ThisItem.End), Minutes))));
+                Navigate(TimeTitleScreen, None)
+            PressedBorderColor: =EventsGallery.BorderColor
+            PressedFill: =EventsGallery.Fill
+            TemplateFill: =White
+            TemplatePadding: =20
+            TemplateSize: =100
+            Visible: =!_createdOOF
+            X: =726
+            Y: =106
+            ZIndex: =9
+
+            Image1 As image:
+                FocusedBorderColor: =Image1.BorderColor
+                Height: =68
+                HoverBorderColor: =ColorFade(Image1.BorderColor, 20%)
+                HoverFill: =ColorFade(Image1.Fill, 20%)
+                Image: ='outlook-icon@3x'
+                OnSelect: =Select(Parent)
+                PaddingBottom: =7
+                PaddingLeft: =7
+                PaddingRight: =7
+                PaddingTop: =7
+                PressedBorderColor: =ColorFade(Image1.BorderColor, -20%)
+                PressedFill: =ColorFade(Image1.Fill, -20%)
+                Width: =50
+                X: =32
+                Y: =12
+                ZIndex: =1
+
+            Label4 As label:
+                Color: =RGBA(4, 144, 255, 1)
+                FocusedBorderColor: =Label4.BorderColor
+                FocusedBorderThickness: =02
+                Font: =Font.Lato
+                Height: =31
+                HoverBorderColor: =Label4.BorderColor
+                HoverColor: =Label4.Color
+                HoverFill: =Label4.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label4.BorderColor
+                PressedColor: =Label4.Color
+                PressedFill: =Label4.Fill
+                Size: =18
+                TabIndex: =0
+                Text: =ThisItem.Subject
+                Width: =473
+                X: =106
+                Y: =12
+                ZIndex: =2
+
+            Label5 As label:
+                FocusedBorderColor: =Label5.BorderColor
+                Height: =37
+                HoverBorderColor: =Label5.BorderColor
+                HoverColor: =Label5.Color
+                HoverFill: =Label5.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label5.BorderColor
+                PressedColor: =Label5.Color
+                PressedFill: =Label5.Fill
+                Size: =18
+                Text: =Text(DateValue(ThisItem.Start), DateTimeFormat.ShortDate) & " - " & Text(DateValue(ThisItem.End), ShortDate)
+                Width: =473
+                X: =106
+                Y: =43
+                ZIndex: =3
+
+        Label6 As label:
+            Align: =Center
+            FocusedBorderColor: =Label6.BorderColor
+            Font: =Font.Lato
+            FontWeight: =Semibold
+            Height: =70
+            HoverBorderColor: =Label6.BorderColor
+            HoverColor: =Label6.Color
+            HoverFill: =Label6.Fill
+            PressedBorderColor: =Label6.BorderColor
+            PressedColor: =Label6.Color
+            PressedFill: =Label6.Fill
+            Size: =21
+            Text: ="No events available"
+            Visible: =!_createdOOF && CountRows(EventsGallery.AllItems) = 0
+            Width: =640
+            Y: =343
+            ZIndex: =10
+
+    AlwaysVisible As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =12
+
+        Circle1 As circle:
+            DisabledFill: =Circle1.Fill
+            DisplayMode: =DisplayMode.View
+            Fill: =RGBA(224, 223, 255, 1)
+            FocusedBorderColor: =Circle1.BorderColor
+            Height: =140
+            HoverFill: =Circle1.Fill
+            PressedFill: =Circle1.Fill
+            Width: =140
+            X: =271
+            Y: =44
+            ZIndex: =1
+
+        icon1 As icon.Send:
+            Color: =RGBA(80, 55, 255, 1)
+            DisabledFill: =icon1.Fill
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =icon1.BorderColor
+            HoverBorderColor: =ColorFade(icon1.BorderColor, 20%)
+            HoverColor: =ColorFade(icon1.Color, 20%)
+            HoverFill: =icon1.Fill
+            Icon: =Icon.Send
+            PressedBorderColor: =ColorFade(icon1.BorderColor, -20%)
+            PressedColor: =ColorFade(icon1.Color, -20%)
+            PressedFill: =icon1.Fill
+            X: =Circle1.X + Circle1.Width / 2 - icon1.Width / 2
+            Y: =Circle1.Y + Circle1.Height / 2 - icon1.Height / 2
+            ZIndex: =2
+
+        Label1 As label:
+            Align: =Center
+            FocusedBorderColor: =Label1.BorderColor
+            Font: =Font.Lato
+            FontWeight: =Bold
+            Height: =72
+            HoverBorderColor: =Label1.BorderColor
+            HoverColor: =Label1.Color
+            HoverFill: =Label1.Fill
+            PressedBorderColor: =Label1.BorderColor
+            PressedColor: =Label1.Color
+            PressedFill: =Label1.Fill
+            Size: =36
+            Text: ="I'm out!"
+            Width: =560
+            X: =61
+            Y: =188
+            ZIndex: =3
+
+        Label1_1 As label:
+            Align: =Center
+            FocusedBorderColor: =Label1_1.BorderColor
+            Font: =Font.Lato
+            FontWeight: =Normal
+            Height: =62
+            HoverBorderColor: =Label1_1.BorderColor
+            HoverColor: =Label1_1.Color
+            HoverFill: =Label1_1.Fill
+            PaddingTop: =0
+            PressedBorderColor: =Label1_1.BorderColor
+            PressedColor: =Label1_1.Color
+            PressedFill: =Label1_1.Fill
+            Size: =18
+            Text: ="Plan to be out of the office?"
+            Width: =560
+            X: =61
+            Y: =260
+            ZIndex: =4
+
+        Label1_2 As label:
+            Align: =Center
+            AutoHeight: =true
+            FocusedBorderColor: =Label1_2.BorderColor
+            Font: =Font.Lato
+            FontWeight: =Normal
+            Height: =99
+            HoverBorderColor: =Label1_2.BorderColor
+            HoverColor: =Label1_2.Color
+            HoverFill: =Label1_2.Fill
+            PaddingTop: =0
+            PressedBorderColor: =Label1_2.BorderColor
+            PressedColor: =Label1_2.Color
+            PressedFill: =Label1_2.Fill
+            Size: =16
+            Text: |-
+                ="Send automatic replies from your
+                " & _myProfile.UserPrincipalName
+            Width: =560
+            X: =61
+            Y: =322
+            ZIndex: =5
+
+        CreateRequestButton As button:
+            Align: =Center
+            BorderColor: =ColorFade(CreateRequestButton.Fill, -50%)
+            Color: =White
+            DisabledBorderColor: =ColorFade(CreateRequestButton.BorderColor, 70%)
+            Fill: =RGBA(80, 55, 255, 1)
+            FocusedBorderColor: =CreateRequestButton.BorderColor
+            FocusedBorderThickness: =5
+            Font: =Font.Lato
+            Height: =63
+            HoverBorderColor: =ColorFade(CreateRequestButton.BorderColor, 20%)
+            HoverColor: =CreateRequestButton.Color
+            HoverFill: =ColorFade(CreateRequestButton.Fill, 20%)
+            OnSelect: |-
+                =//resets all of the controls in the wizard
+                Concurrent(
+                    Set(_selectedCalendarEvent, Blank()),
+                    Reset(StartDatePicker),
+                    Reset(EndDatePicker),
+                    Reset(StartTimeDropdown),
+                    Reset(EndTimeDropdown),
+                    Reset(ContactsComboBox),
+                    Reset(TitleInput),
+                    Reset(InternalMessage),
+                    Reset(ExternalMessage)
+                );
+                Navigate(TimeTitleScreen, None)
+            PressedBorderColor: =CreateRequestButton.Fill
+            PressedColor: =RGBA(230, 227, 230, 1)
+            PressedFill: =CreateRequestButton.Color
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =22
+            Text: ="Create new"
+            Width: =447
+            X: =117
+            Y: =388
+            ZIndex: =7
+
+    OOFCreatedGroup As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =32
+
+        Rectangle5 As rectangle:
+            DisabledFill: =Rectangle5.Fill
+            Fill: =RGBA(100, 101, 111, 1)
+            FocusedBorderColor: =Rectangle5.BorderColor
+            Height: =1
+            HoverFill: =Rectangle5.Fill
+            PressedFill: =Rectangle5.Fill
+            Visible: =_createdOOF
+            Width: =490
+            X: =96
+            Y: =463
+            ZIndex: =12
+
+        Toggle1 As toggleSwitch:
+            AccessibleLabel: ="Turn auto replies on/off"
+            Color: =RGBA(80, 55, 255, 1)
+            Default: =_createdOOF
+            FalseFill: =RGBA(224, 223, 255, 1)
+            FalseHoverFill: =ColorFade(Toggle1.FalseFill, 15%)
+            FocusedBorderColor: =Toggle1.BorderColor
+            FontWeight: =Semibold
+            HandleFill: =If(Toggle1.Value,RGBA(7, 210, 18, 1),RGBA(144, 145, 151, 1))
+            Height: =49
+            HoverBorderColor: =ColorFade(Toggle1.BorderColor, 15%)
+            OnCheck: |-
+                =Office365.SetAutomaticRepliesSetting("Scheduled", If(_sendExternalResponse, "All", "None"), 
+                    {ScheduledStartDateTimeOffset: _startTimeUTC,
+                     ScheduledEndDateTimeOffset: _endTimeUTC,
+                     InternalReplyMessage: _internalMessage,
+                     ExternalReplyMessage: _externalMessage})
+            OnUncheck: =Office365.SetAutomaticRepliesSetting("Disabled", "All")
+            PressedBorderColor: =ColorFade(Toggle1.BorderColor, -15%)
+            TrueFill: =RGBA(224, 223, 255, 1)
+            TrueHoverFill: =ColorFade(Toggle1.TrueFill, 15%)
+            Visible: =_createdOOF
+            Width: =154
+            X: =430
+            Y: =473
+            ZIndex: =14
+
+        Image4 As image:
+            DisabledFill: =RGBA(0,0,0,0)
+            DisplayMode: =If(Toggle1.Value, Edit, Disabled)
+            FocusedBorderColor: =Image4.BorderColor
+            Height: =40
+            HoverBorderColor: =ColorFade(Image4.BorderColor, 20%)
+            HoverFill: =ColorFade(Image4.Fill, 20%)
+            Image: |-
+                =If(Toggle1.Value,
+                    Switch(_oOFRecord.ResponseType.Row, 
+                        1, 'generic-black@3x_new',
+                        2, 'work-response-black@3x_new',
+                        3, 'vacation-black@3x_new',
+                        4, 'personal-response-black@3x_new'
+                    ),
+                    Switch(_oOFRecord.ResponseType.Row,
+                        1, 'generic-grey@3x',
+                        2, 'business-grey@3x',
+                        3, 'vacation-grey@3x',
+                        4, 'personal-grey@3x'
+                    )
+                )
+            PressedBorderColor: =ColorFade(Image4.BorderColor, -20%)
+            PressedFill: =ColorFade(Image4.Fill, -20%)
+            Visible: =_createdOOF
+            Width: =40
+            X: =95
+            Y: =470
+            ZIndex: =15
+
+        Label16 As label:
+            DisplayMode: =If(Toggle1.Value, Edit, Disabled)
+            FocusedBorderColor: =Label16.BorderColor
+            FontWeight: =Semibold
+            HoverBorderColor: =Label16.BorderColor
+            HoverColor: =Label16.Color
+            HoverFill: =Label16.Fill
+            PressedBorderColor: =Label16.BorderColor
+            PressedColor: =Label16.Color
+            PressedFill: =Label16.Fill
+            Size: =14
+            Text: =Proper(_oOFRecord.ResponseType.Response)
+            Visible: =_createdOOF
+            Width: =203
+            X: =153
+            Y: =470
+            ZIndex: =16
+
+        icon2_1 As icon.Edit:
+            AccessibleLabel: ="Edit time off request"
+            Color: =RGBA(80, 55, 255, 1)
+            DisabledFill: =icon2_1.Fill
+            DisplayMode: =If(Toggle1.Value, Edit, Disabled)
+            FocusedBorderColor: =icon2_1.BorderColor
+            Height: =40
+            HoverBorderColor: =ColorFade(icon2_1.BorderColor, 20%)
+            HoverColor: =ColorFade(icon2_1.Color, 20%)
+            HoverFill: =icon2_1.Fill
+            Icon: =Icon.Edit
+            OnSelect: =Navigate(TimeTitleScreen, None)
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            PressedBorderColor: =ColorFade(icon2_1.BorderColor, -20%)
+            PressedColor: =ColorFade(icon2_1.Color, -20%)
+            PressedFill: =icon2_1.Fill
+            TabIndex: =0
+            Visible: =_createdOOF
+            Width: =40
+            X: =544
+            Y: =547
+            ZIndex: =17
+
+        Label17 As label:
+            DisplayMode: =If(Toggle1.Value, Edit, Disabled)
+            FocusedBorderColor: =Label17.BorderColor
+            HoverBorderColor: =Label17.BorderColor
+            HoverColor: =Label17.Color
+            HoverFill: =Label17.Fill
+            PressedBorderColor: =Label17.BorderColor
+            PressedColor: =Label17.Color
+            PressedFill: =Label17.Fill
+            Size: =16
+            Text: =Text(_oOFRecord.StartDate, "[$-en-US]mmm dd")
+            Visible: =_createdOOF
+            Width: =115
+            X: =156
+            Y: =547
+            ZIndex: =18
+
+        Label17_1 As label:
+            DisplayMode: =If(Toggle1.Value, Edit, Disabled)
+            FocusedBorderColor: =Label17_1.BorderColor
+            HoverBorderColor: =Label17_1.BorderColor
+            HoverColor: =Label17_1.Color
+            HoverFill: =Label17_1.Fill
+            PressedBorderColor: =Label17_1.BorderColor
+            PressedColor: =Label17_1.Color
+            PressedFill: =Label17_1.Fill
+            Size: =16
+            Text: =Text(_oOFRecord.EndDate, "[$-en-US]mmm dd")
+            Visible: =_createdOOF
+            Width: =115
+            X: =430
+            Y: =542
+            ZIndex: =19
+
+        icon4 As icon.ArrowRight:
+            Color: =RGBA(80, 55, 255, 1)
+            DisabledFill: =icon4.Fill
+            DisplayMode: =If(Toggle1.Value, Edit, Disabled)
+            FocusedBorderColor: =icon4.BorderColor
+            HoverBorderColor: =ColorFade(icon4.BorderColor, 20%)
+            HoverColor: =ColorFade(icon4.Color, 20%)
+            HoverFill: =icon4.Fill
+            Icon: =Icon.ArrowRight
+            PressedBorderColor: =ColorFade(icon4.BorderColor, -20%)
+            PressedColor: =ColorFade(icon4.Color, -20%)
+            PressedFill: =icon4.Fill
+            Visible: =_createdOOF
+            X: =307
+            Y: =542
+            ZIndex: =20
+
+        Label18 As label:
+            DisplayMode: =If(Toggle1.Value, Edit, Disabled)
+            FocusedBorderColor: =Label18.BorderColor
+            Height: =47
+            HoverBorderColor: =Label18.BorderColor
+            HoverColor: =Label18.Color
+            HoverFill: =Label18.Fill
+            PressedBorderColor: =Label18.BorderColor
+            PressedColor: =Label18.Color
+            PressedFill: =Label18.Fill
+            Size: =16
+            Text: =_oOFRecord.StartTime.'data-ADB4D7A662F548B49FAC2B986E348A1BName'
+            Visible: =_createdOOF
+            Width: =115
+            X: =Label17.X
+            Y: =Label17.Y + Label17.Height
+            ZIndex: =21
+
+        Label18_1 As label:
+            DisplayMode: =If(Toggle1.Value, Edit, Disabled)
+            FocusedBorderColor: =Label18_1.BorderColor
+            Height: =52
+            HoverBorderColor: =Label18_1.BorderColor
+            HoverColor: =Label18_1.Color
+            HoverFill: =Label18_1.Fill
+            PressedBorderColor: =Label18_1.BorderColor
+            PressedColor: =Label18_1.Color
+            PressedFill: =Label18_1.Fill
+            Size: =16
+            Text: =_oOFRecord.EndTime.'data-ADB4D7A662F548B49FAC2B986E348A1BName'
+            Visible: =_createdOOF
+            Width: =115
+            X: =Label17_1.X
+            Y: =Label17_1.Y + Label17_1.Height
+            ZIndex: =22
+
+        Gallery2 As gallery.galleryVertical:
+            AccessibleLabel: ="Clear calendar or invite people to your out of office"
+            DisabledBorderColor: =Gallery2.BorderColor
+            DisabledFill: =Gallery2.Fill
+            DisplayMode: =If(Toggle1.Value, Edit, Disabled)
+            Height: =140
+            HoverBorderColor: =Gallery2.BorderColor
+            HoverFill: =Gallery2.Fill
+            Items: |-
+                =Table(
+                    //appended text is the number of invitees sent to user's out of office event
+                    {Row: 1, Text: "Send calendar invite", ImageActive: 'send-calendar-invite-active@3x_new', ImageDisabled: 'send-calendar-invite-inactive@3x_new', 
+                        AppendedText: _inviteeCount & " invite(s) sent"},
+                    //appended text is number of conflicting events with the created event
+                    {Row: 2, Text: "Clear my calendar", ImageActive: 'clear-calendar-active@3x_new', ImageDisabled: 'clear-calendar-inactive@3x_new', 
+                        AppendedText: CountRows(Filter(FutureCalendarEvents, 
+                            DateTimeValue(Start) >= DateTimeValue(_createdCalendarEvent.Start), 
+                            DateTimeValue(End) <= DateTimeValue(_createdCalendarEvent.End),
+                            Id <> _createdCalendarEvent.Id)) & " conflicts"}
+                )
+            Layout: =Layout.Vertical
+            OnSelect: |-
+                =If(
+                    ThisItem.Row = 1, Navigate(SendCalendarInviteScreen, None),
+                    ThisItem.Row = 2, Set(_clearAll, true); Navigate(ClearCalendarScreen, None)
+                )
+            PressedBorderColor: =Gallery2.BorderColor
+            PressedFill: =Gallery2.Fill
+            TemplateFill: =RGBA(230, 227, 230, 1)
+            TemplateSize: =60
+            Visible: =_createdOOF
+            Width: =489
+            X: =95
+            Y: =628
+            ZIndex: =23
+
+            Image5 As image:
+                DisabledFill: =RGBA(0,0,0,0)
+                FocusedBorderColor: =Image5.BorderColor
+                Height: =45
+                HoverBorderColor: =ColorFade(Image5.BorderColor, 20%)
+                HoverFill: =ColorFade(Image5.Fill, 20%)
+                Image: =If(Toggle1.Value, ThisItem.ImageActive, ThisItem.ImageDisabled)
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =ColorFade(Image5.BorderColor, -20%)
+                PressedFill: =ColorFade(Image5.Fill, -20%)
+                Width: =45
+                X: =15
+                Y: =5
+                ZIndex: =1
+
+            Label19 As label:
+                FocusedBorderColor: =Label19.BorderColor
+                Font: =Font.Lato
+                Height: =39
+                HoverBorderColor: =Label19.BorderColor
+                HoverColor: =Label19.Color
+                HoverFill: =Label19.Fill
+                OnSelect: =Select(Parent)
+                PressedBorderColor: =Label19.BorderColor
+                PressedColor: =Label19.Color
+                PressedFill: =Label19.Fill
+                Size: =14
+                Text: =ThisItem.Text
+                Width: =190
+                X: =102
+                Y: =8
+                ZIndex: =2
+
+            Label19_1 As label:
+                Align: =Right
+                FocusedBorderColor: =Label19_1.BorderColor
+                Font: =Font.Lato
+                Height: =39
+                HoverBorderColor: =Label19_1.BorderColor
+                HoverColor: =Label19_1.Color
+                HoverFill: =Label19_1.Fill
+                OnSelect: =Select(Parent)
+                PaddingRight: =15
+                PressedBorderColor: =Label19_1.BorderColor
+                PressedColor: =Label19_1.Color
+                PressedFill: =Label19_1.Fill
+                Size: =14
+                Text: |-
+                    =//text to display for each item
+                    ThisItem.AppendedText
+                Width: =162
+                X: =314
+                Y: =8
+                ZIndex: =3
+
+        Label10_10 As label:
+            FocusedBorderColor: =Label10_10.BorderColor
+            Font: =Font.'Lato Light'
+            FontWeight: =Lighter
+            Height: =44
+            HoverBorderColor: =Label10_10.BorderColor
+            HoverColor: =Label10_10.Color
+            HoverFill: =Label10_10.Fill
+            LineHeight: =1
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =Label10_10.BorderColor
+            PressedColor: =Label10_10.Color
+            PressedFill: =Label10_10.Fill
+            Size: =28
+            Text: ="Review your auto response"
+            Visible: =_createdOOF
+            Width: =640
+            X: =726
+            Y: =31
+            ZIndex: =25
+
+        Label10_12 As label:
+            FocusedBorderColor: =Label10_12.BorderColor
+            Font: =Font.Lato
+            HoverBorderColor: =Label10_12.BorderColor
+            HoverColor: =Label10_12.Color
+            HoverFill: =Label10_12.Fill
+            PressedBorderColor: =Label10_12.BorderColor
+            PressedColor: =Label10_12.Color
+            PressedFill: =Label10_12.Fill
+            Size: =14
+            Text: ="Inside my org"
+            Visible: =_createdOOF
+            Width: =182
+            Wrap: =false
+            X: =726
+            Y: =82
+            ZIndex: =26
+
+        InternalMessage_1 As richTextEditor:
+            AccessibleLabel: ="Internal away message"
+            Default: =_internalMessage
+            Height: =235
+            OnChange: =Set(_internalMessage, InternalMessage_1.HtmlText)
+            Visible: =_createdOOF
+            Width: =535
+            X: =726
+            Y: =122
+            ZIndex: =27
+
+        Checkbox1_1 As checkbox:
+            CheckboxBorderColor: =RGBA(80, 55, 255, 1)
+            FocusedBorderColor: =Checkbox1_1.BorderColor
+            Height: =40
+            HoverBorderColor: =ColorFade(Checkbox1_1.BorderColor, 30%)
+            HoverFill: =ColorFade(Checkbox1_1.Fill, 30%)
+            OnCheck: =Set(_sendExternalResponse, true)
+            OnUncheck: =Set(_sendExternalResponse, false)
+            PressedBorderColor: =ColorFade(Checkbox1_1.BorderColor, -30%)
+            PressedFill: =ColorFade(Checkbox1_1.Fill, -30%)
+            Size: =14
+            Text: ="Send response outside my org"
+            Visible: =_createdOOF
+            Width: =316
+            X: =726
+            Y: =373
+            ZIndex: =28
+
+        ExternalMessage_1 As richTextEditor:
+            AccessibleLabel: ="External away message"
+            Default: =_internalMessage
+            DisplayMode: =If(_sendExternalResponse, DisplayMode.Edit, Disabled)
+            Height: =235
+            OnChange: =Set(_externalMessage, ExternalMessage_1.HtmlText)
+            Visible: =_createdOOF
+            Width: =535
+            X: =726
+            Y: =465
+            ZIndex: =29
+
+        Label10_14 As label:
+            DisplayMode: =If(_sendExternalResponse, DisplayMode.Edit, Disabled)
+            FocusedBorderColor: =Label10_14.BorderColor
+            Font: =Font.Lato
+            HoverBorderColor: =Label10_14.BorderColor
+            HoverColor: =Label10_14.Color
+            HoverFill: =Label10_14.Fill
+            PressedBorderColor: =Label10_14.BorderColor
+            PressedColor: =Label10_14.Color
+            PressedFill: =Label10_14.Fill
+            Size: =14
+            Text: ="Outside my org"
+            Visible: =_createdOOF
+            Width: =535
+            Wrap: =false
+            X: =726
+            Y: =424
+            ZIndex: =30
+
+        NextButton_11 As button:
+            BorderColor: =ColorFade(NextButton_11.Fill, -50%)
+            DisabledBorderColor: =ColorFade(NextButton_11.BorderColor, 70%)
+            DisplayMode: =Edit
+            Fill: =RGBA(80, 55, 255, 1)
+            FocusedBorderColor: =NextButton_11.BorderColor
+            Height: =38
+            HoverBorderColor: =ColorFade(NextButton_11.BorderColor, 20%)
+            HoverColor: =NextButton_11.Color
+            HoverFill: =ColorFade(NextButton_11.Fill, 20%)
+            OnSelect: |-
+                =Office365.SetAutomaticRepliesSetting("Scheduled", If(_sendExternalResponse, "All", "None"), 
+                    {ScheduledStartDateTimeOffset: _startTimeUTC,
+                     ScheduledEndDateTimeOffset: _endTimeUTC,
+                     InternalReplyMessage: InternalMessage_1.HtmlText,
+                     ExternalReplyMessage: ExternalMessage_1.HtmlText})
+            PressedBorderColor: =NextButton_11.Fill
+            PressedColor: =NextButton_11.Fill
+            PressedFill: =NextButton_11.Color
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            Size: =14
+            Text: ="Update"
+            Visible: =_createdOOF
+            Width: =111
+            X: =1150
+            Y: =714
+            ZIndex: =31
+

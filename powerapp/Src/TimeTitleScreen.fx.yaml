@@ -1,0 +1,307 @@
+TimeTitleScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: =Set(_newMessageStep, 1)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Rectangle2 As rectangle:
+        DisabledFill: =Rectangle2.Fill
+        Fill: =RGBA(224, 223, 255, 1)
+        FocusedBorderColor: =Rectangle2.BorderColor
+        Height: =110
+        HoverFill: =Rectangle2.Fill
+        PressedFill: =Rectangle2.Fill
+        Width: =1366
+        ZIndex: =1
+
+    GalleryProgress As gallery.galleryHorizontal:
+        AccessibleLabel: ="Progress bar"
+        DisabledBorderColor: =GalleryProgress.BorderColor
+        DisabledFill: =GalleryProgress.Fill
+        DisplayMode: =DisplayMode.View
+        Height: =100
+        HoverBorderColor: =GalleryProgress.BorderColor
+        HoverFill: =GalleryProgress.Fill
+        Items: =ProgressTable
+        PressedBorderColor: =GalleryProgress.BorderColor
+        PressedFill: =GalleryProgress.Fill
+        ShowScrollbar: =false
+        TemplateSize: =200
+        Width: =1043.875
+        X: =161
+        ZIndex: =2
+
+        Label4_4 As label:
+            Align: =Center
+            Color: =Black
+            FocusedBorderColor: =Label4_4.BorderColor
+            FocusedBorderThickness: =02
+            FontWeight: =If(ThisItem.Row = _newMessageStep, Bold, Normal)
+            Height: =35
+            HoverBorderColor: =Label4_4.BorderColor
+            HoverColor: =Label4_4.Color
+            HoverFill: =Label4_4.Fill
+            OnSelect: =Select(Parent)
+            PaddingLeft: =1.5
+            PaddingRight: =1.5
+            PressedBorderColor: =Label4_4.BorderColor
+            PressedColor: =Label4_4.Color
+            PressedFill: =Label4_4.Fill
+            Size: =10
+            Text: =ThisItem.Text
+            Width: =Parent.TemplateWidth - Label4_4.X * 2
+            X: =3
+            Y: =55
+            ZIndex: =1
+
+        Rectangle2_2 As rectangle:
+            DisabledFill: =Rectangle2_2.Fill
+            Fill: =If(ThisItem.Row = _newMessageStep, RGBA(80, 55, 255, 1),RGBA(183,183,183,1))
+            FocusedBorderColor: =Rectangle2_2.BorderColor
+            Height: =17
+            HoverFill: =Rectangle2_2.Fill
+            OnSelect: =
+            PressedFill: =Rectangle2_2.Fill
+            Visible: =ThisItem.Row >= _newMessageStep
+            Width: =Parent.TemplateWidth - Rectangle2_2.X*2
+            X: =15
+            Y: =24
+            ZIndex: =2
+
+        icon10_3 As icon.Check:
+            AccessibleLabel: ="This section completed"
+            Color: =RGBA(80, 55, 255, 1)
+            DisabledFill: =icon10_3.Fill
+            FocusedBorderColor: =icon10_3.BorderColor
+            Height: =49
+            HoverBorderColor: =ColorFade(icon10_3.BorderColor, 20%)
+            HoverColor: =ColorFade(icon10_3.Color, 20%)
+            HoverFill: =icon10_3.Fill
+            Icon: =Icon.Check
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(icon10_3.BorderColor, -20%)
+            PressedColor: =ColorFade(icon10_3.Color, -20%)
+            PressedFill: =icon10_3.Fill
+            Visible: =ThisItem.Row < _newMessageStep
+            X: =Parent.TemplateWidth / 2 - icon10_3.Width / 2
+            Y: =6
+            ZIndex: =3
+
+    Label7 As label:
+        FocusedBorderColor: =Label7.BorderColor
+        Font: =Font.Lato
+        Height: =46
+        HoverBorderColor: =Label7.BorderColor
+        HoverColor: =Label7.Color
+        HoverFill: =Label7.Fill
+        PressedBorderColor: =Label7.BorderColor
+        PressedColor: =Label7.Color
+        PressedFill: =Label7.Fill
+        Size: =14
+        Text: ="Set response start time"
+        Width: =280
+        X: =379
+        Y: =130
+        ZIndex: =3
+
+    StartDatePicker As datepicker:
+        AccessibleLabel: ="Start date picker"
+        BorderColor: =RGBA(80, 55, 255, 1)
+        DefaultDate: |-
+            =//OOF event = tomorrow by default unless a calendar event was selected
+            If(IsBlank(_selectedCalendarEvent), DateAdd(Today(), 1, Days), _selectedCalendarEvent.Start)
+        FocusedBorderColor: =StartDatePicker.BorderColor
+        Font: =Font.Lato
+        Height: =54
+        HoverBorderColor: =StartDatePicker.BorderColor
+        HoverFill: =StartDatePicker.Fill
+        IconBackground: =RGBA(80, 55, 255, 1)
+        InputTextPlaceholder: =Text(Date(2001,12,31), StartDatePicker.Format, StartDatePicker.Language)
+        PressedBorderColor: =StartDatePicker.BorderColor
+        PressedFill: =StartDatePicker.Fill
+        Width: =280
+        X: =379
+        Y: =189
+        ZIndex: =4
+
+    StartTimeDropdown As dropdown:
+        AccessibleLabel: ="Start time drop down"
+        BorderColor: =RGBA(80, 55, 255, 1)
+        ChevronBackground: =RGBA(80, 55, 255, 1)
+        Default: |-
+            =//OOF event = tomorrow at 8 AM by default unless a calendar event was selected
+            If(IsBlank(_selectedCalendarEvent), LookUp(HoursList, Minutes = 480).Name, LookUp(HoursList, Minutes = _selectedCalendarEvent.StartMinutes).Name)
+        FocusedBorderColor: =StartTimeDropdown.BorderColor
+        Font: =Font.Lato
+        Height: =54
+        HoverBorderColor: =ColorFade(StartTimeDropdown.BorderColor, 15%)
+        Items: =HoursList
+        PressedBorderColor: =StartTimeDropdown.HoverBorderColor
+        Size: =14
+        Width: =280
+        X: =707
+        Y: =189
+        ZIndex: =5
+
+    Label7_1 As label:
+        FocusedBorderColor: =Label7_1.BorderColor
+        Font: =Font.Lato
+        Height: =43
+        HoverBorderColor: =Label7_1.BorderColor
+        HoverColor: =Label7_1.Color
+        HoverFill: =Label7_1.Fill
+        PressedBorderColor: =Label7_1.BorderColor
+        PressedColor: =Label7_1.Color
+        PressedFill: =Label7_1.Fill
+        Size: =14
+        Text: ="Set response end time"
+        Width: =280
+        X: =379
+        Y: =259
+        ZIndex: =6
+
+    EndDatePicker As datepicker:
+        AccessibleLabel: ="End date picker"
+        BorderColor: =RGBA(80, 55, 255, 1)
+        DefaultDate: |-
+            =//OOF event = tomorrow by default unless a calendar event was selected
+            If(IsBlank(_selectedCalendarEvent), StartDatePicker.SelectedDate, _selectedCalendarEvent.End)
+        FocusedBorderColor: =EndDatePicker.BorderColor
+        Font: =Font.Lato
+        Height: =54
+        HoverBorderColor: =EndDatePicker.BorderColor
+        HoverFill: =EndDatePicker.Fill
+        IconBackground: =RGBA(80, 55, 255, 1)
+        InputTextPlaceholder: =Text(Date(2001,12,31), EndDatePicker.Format, EndDatePicker.Language)
+        PressedBorderColor: =EndDatePicker.BorderColor
+        PressedFill: =EndDatePicker.Fill
+        Width: =280
+        X: =379
+        Y: =316
+        ZIndex: =7
+
+    EndTimeDropdown As dropdown:
+        AccessibleLabel: ="End time drop down"
+        BorderColor: =RGBA(80, 55, 255, 1)
+        ChevronBackground: =RGBA(80, 55, 255, 1)
+        Default: |
+            =//OOF event = tomorrow at 5 PM by default unless a calendar event was selected
+            If(IsBlank(_selectedCalendarEvent), LookUp(HoursList, Minutes = 1020).Name, LookUp(HoursList, Minutes = _selectedCalendarEvent.EndMinutes).Name)
+        FocusedBorderColor: =EndTimeDropdown.BorderColor
+        Font: =Font.Lato
+        Height: =54
+        HoverBorderColor: =ColorFade(EndTimeDropdown.BorderColor, 15%)
+        Items: =HoursList
+        PressedBorderColor: =EndTimeDropdown.HoverBorderColor
+        Size: =14
+        Width: =280
+        X: =707
+        Y: =316
+        ZIndex: =8
+
+    Label7_2 As label:
+        FocusedBorderColor: =Label7_2.BorderColor
+        Font: =Font.Lato
+        Height: =48
+        HoverBorderColor: =Label7_2.BorderColor
+        HoverColor: =Label7_2.Color
+        HoverFill: =Label7_2.Fill
+        PressedBorderColor: =Label7_2.BorderColor
+        PressedColor: =Label7_2.Color
+        PressedFill: =Label7_2.Fill
+        Size: =14
+        Text: ="Title (optional)"
+        Width: =313
+        X: =379
+        Y: =399
+        ZIndex: =9
+
+    TitleInput As text:
+        AccessibleLabel: ="Input out of office title"
+        BorderColor: =RGBA(151, 151, 151, 1)
+        Default: |-
+            =//OOF title is "Out of office" by default unless a calendar event was selected
+            If(IsBlank(_selectedCalendarEvent.Subject), "Out of office", _selectedCalendarEvent.Subject)
+        FocusedBorderColor: =TitleInput.BorderColor
+        Font: =Font.Lato
+        Height: =70
+        PressedBorderColor: =TitleInput.HoverBorderColor
+        PressedColor: =TitleInput.Color
+        PressedFill: =TitleInput.Fill
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =14
+        Width: =608
+        X: =379
+        Y: =458
+        ZIndex: =10
+
+    icon3_2 As icon.ChevronLeft:
+        AccessibleLabel: ="Previous page"
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledFill: =icon3_2.Fill
+        FocusedBorderColor: =icon3_2.BorderColor
+        Height: =100
+        HoverBorderColor: =ColorFade(icon3_2.BorderColor, 20%)
+        HoverColor: =ColorFade(icon3_2.Color, 20%)
+        HoverFill: =icon3_2.Fill
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Back()
+        PaddingBottom: =25
+        PaddingLeft: =25
+        PaddingRight: =25
+        PaddingTop: =25
+        PressedBorderColor: =ColorFade(icon3_2.BorderColor, -20%)
+        PressedColor: =ColorFade(icon3_2.Color, -20%)
+        PressedFill: =icon3_2.Fill
+        TabIndex: =0
+        Width: =89
+        ZIndex: =11
+
+    NextButton As button:
+        BorderColor: =ColorFade(NextButton.Fill, -50%)
+        DisabledBorderColor: =ColorFade(NextButton.BorderColor, 70%)
+        DisplayMode: =If(WarningLabel.Visible, Disabled, Edit)
+        Fill: =RGBA(80, 55, 255, 1)
+        FocusedBorderColor: =NextButton.BorderColor
+        Height: =51
+        HoverBorderColor: =ColorFade(NextButton.BorderColor, 20%)
+        HoverColor: =NextButton.Color
+        HoverFill: =ColorFade(NextButton.Fill, 20%)
+        OnSelect: =Navigate(ResponseScreen, None)
+        PressedBorderColor: =NextButton.Fill
+        PressedColor: =NextButton.Fill
+        PressedFill: =NextButton.Color
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =14
+        Text: ="Next"
+        Width: =141
+        X: =1158
+        Y: =687+0
+        ZIndex: =12
+
+    WarningLabel As label:
+        Align: =Center
+        Color: =RGBA(255, 0, 0, 1)
+        FocusedBorderColor: =WarningLabel.BorderColor
+        Font: =Font.Lato
+        Height: =70
+        HoverBorderColor: =WarningLabel.BorderColor
+        HoverColor: =WarningLabel.Color
+        HoverFill: =WarningLabel.Fill
+        Live: =Live.Polite
+        PressedBorderColor: =WarningLabel.BorderColor
+        PressedColor: =WarningLabel.Color
+        PressedFill: =WarningLabel.Fill
+        Size: =20
+        Text: ="Start time must occur before end time"
+        Visible: =DateAdd(StartDatePicker.SelectedDate, StartTimeDropdown.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes', Minutes) >= DateAdd(EndDatePicker.SelectedDate, EndTimeDropdown.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes', Minutes)
+        Width: =608
+        X: =378
+        Y: =557
+        ZIndex: =13
+

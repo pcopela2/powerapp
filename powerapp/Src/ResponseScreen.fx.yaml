@@ -1,0 +1,321 @@
+ResponseScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: =Set(_newMessageStep, 2)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Rectangle2_1 As rectangle:
+        DisabledFill: =Rectangle2_1.Fill
+        Fill: =RGBA(224, 223, 255, 1)
+        FocusedBorderColor: =Rectangle2_1.BorderColor
+        Height: =110
+        HoverFill: =Rectangle2_1.Fill
+        PressedFill: =Rectangle2_1.Fill
+        Width: =1366
+        ZIndex: =1
+
+    GalleryProgress_1 As gallery.galleryHorizontal:
+        AccessibleLabel: ="Progress bar"
+        DisabledBorderColor: =GalleryProgress_1.BorderColor
+        DisabledFill: =GalleryProgress_1.Fill
+        DisplayMode: =DisplayMode.View
+        Height: =100
+        HoverBorderColor: =GalleryProgress_1.BorderColor
+        HoverFill: =GalleryProgress_1.Fill
+        Items: =ProgressTable
+        PressedBorderColor: =GalleryProgress_1.BorderColor
+        PressedFill: =GalleryProgress_1.Fill
+        ShowScrollbar: =false
+        TemplateSize: =200
+        Width: =1043.875
+        X: =161
+        ZIndex: =2
+
+        Label4_5 As label:
+            Align: =Center
+            Color: =Black
+            FocusedBorderColor: =Label4_5.BorderColor
+            FocusedBorderThickness: =02
+            FontWeight: =If(ThisItem.Row = _newMessageStep, Bold, Normal)
+            Height: =35
+            HoverBorderColor: =Label4_5.BorderColor
+            HoverColor: =Label4_5.Color
+            HoverFill: =Label4_5.Fill
+            OnSelect: =Select(Parent)
+            PaddingLeft: =1.5
+            PaddingRight: =1.5
+            PressedBorderColor: =Label4_5.BorderColor
+            PressedColor: =Label4_5.Color
+            PressedFill: =Label4_5.Fill
+            Size: =10
+            Text: =ThisItem.Text
+            Width: =Parent.TemplateWidth - Label4_5.X * 2
+            X: =3
+            Y: =55
+            ZIndex: =1
+
+        Rectangle2_3 As rectangle:
+            DisabledFill: =Rectangle2_3.Fill
+            Fill: =If(ThisItem.Row = _newMessageStep, RGBA(80, 55, 255, 1),RGBA(183,183,183,1))
+            FocusedBorderColor: =Rectangle2_3.BorderColor
+            Height: =17
+            HoverFill: =Rectangle2_3.Fill
+            OnSelect: =
+            PressedFill: =Rectangle2_3.Fill
+            Visible: =ThisItem.Row >= _newMessageStep
+            Width: =Parent.TemplateWidth - Rectangle2_3.X*2
+            X: =15
+            Y: =24
+            ZIndex: =2
+
+        icon10_4 As icon.Check:
+            AccessibleLabel: ="This section completed"
+            Color: =RGBA(80, 55, 255, 1)
+            DisabledFill: =icon10_4.Fill
+            FocusedBorderColor: =icon10_4.BorderColor
+            Height: =49
+            HoverBorderColor: =ColorFade(icon10_4.BorderColor, 20%)
+            HoverColor: =ColorFade(icon10_4.Color, 20%)
+            HoverFill: =icon10_4.Fill
+            Icon: =Icon.Check
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(icon10_4.BorderColor, -20%)
+            PressedColor: =ColorFade(icon10_4.Color, -20%)
+            PressedFill: =icon10_4.Fill
+            Visible: =ThisItem.Row < _newMessageStep
+            X: =Parent.TemplateWidth / 2 - icon10_4.Width / 2
+            Y: =6
+            ZIndex: =3
+
+    icon3_3 As icon.ChevronLeft:
+        AccessibleLabel: ="Previous page"
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledFill: =icon3_3.Fill
+        FocusedBorderColor: =icon3_3.BorderColor
+        Height: =100
+        HoverBorderColor: =ColorFade(icon3_3.BorderColor, 20%)
+        HoverColor: =ColorFade(icon3_3.Color, 20%)
+        HoverFill: =icon3_3.Fill
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Back()
+        PaddingBottom: =25
+        PaddingLeft: =25
+        PaddingRight: =25
+        PaddingTop: =25
+        PressedBorderColor: =ColorFade(icon3_3.BorderColor, -20%)
+        PressedColor: =ColorFade(icon3_3.Color, -20%)
+        PressedFill: =icon3_3.Fill
+        TabIndex: =0
+        Width: =89
+        ZIndex: =11
+
+    Label10 As label:
+        FocusedBorderColor: =Label10.BorderColor
+        Font: =Font.Lato
+        Height: =43
+        HoverBorderColor: =Label10.BorderColor
+        HoverColor: =Label10.Color
+        HoverFill: =Label10.Fill
+        PaddingLeft: =15
+        PressedBorderColor: =Label10.BorderColor
+        PressedColor: =Label10.Color
+        PressedFill: =Label10.Fill
+        Size: =14
+        Text: =TitleInput.Text
+        Width: =262
+        Wrap: =false
+        X: =583
+        Y: =114
+        ZIndex: =13
+
+    Label11 As label:
+        FocusedBorderColor: =Label11.BorderColor
+        Font: =Font.Lato
+        Height: =70
+        HoverBorderColor: =Label11.BorderColor
+        HoverColor: =Label11.Color
+        HoverFill: =Label11.Fill
+        PaddingLeft: =15
+        PressedBorderColor: =Label11.BorderColor
+        PressedColor: =Label11.Color
+        PressedFill: =Label11.Fill
+        Size: =14
+        Text: |-
+            =Text(StartDatePicker.SelectedDate, "[$-en-US]mmm d") & "
+            " & StartTimeDropdown.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BName'
+        Width: =120
+        X: =icon5.X - Label11.Width - 20
+        Y: =Label10.Y + Label10.Height
+        ZIndex: =14
+
+    Label11_1 As label:
+        FocusedBorderColor: =Label11_1.BorderColor
+        Font: =Font.Lato
+        Height: =70
+        HoverBorderColor: =Label11_1.BorderColor
+        HoverColor: =Label11_1.Color
+        HoverFill: =Label11_1.Fill
+        PaddingLeft: =15
+        PressedBorderColor: =Label11_1.BorderColor
+        PressedColor: =Label11_1.Color
+        PressedFill: =Label11_1.Fill
+        Size: =14
+        Text: |-
+            =Text(EndDatePicker.SelectedDate, "[$-en-US]mmm d") & "
+            " & EndTimeDropdown.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BName'
+        Width: =120
+        X: =icon5.X + icon5.Width + 20
+        Y: =Label10.Y + Label10.Height
+        ZIndex: =15
+
+    icon5 As icon.ArrowRight:
+        Color: =RGBA(47,41,43,1)
+        DisabledFill: =icon5.Fill
+        DisplayMode: =DisplayMode.View
+        FocusedBorderColor: =icon5.BorderColor
+        Height: =70
+        HoverBorderColor: =ColorFade(icon5.BorderColor, 20%)
+        HoverColor: =ColorFade(icon5.Color, 20%)
+        HoverFill: =icon5.Fill
+        Icon: =Icon.ArrowRight
+        PressedBorderColor: =ColorFade(icon5.BorderColor, -20%)
+        PressedColor: =ColorFade(icon5.Color, -20%)
+        PressedFill: =icon5.Fill
+        Width: =45
+        X: =Parent.Width / 2 - icon5.Width / 2
+        Y: =Label10.Y + Label10.Height
+        ZIndex: =16
+
+    ResponseTypeGallery As gallery.galleryVertical:
+        AccessibleLabel: ="Response type gallery"
+        DisabledBorderColor: =ResponseTypeGallery.BorderColor
+        DisabledFill: =ResponseTypeGallery.Fill
+        Height: =433
+        HoverBorderColor: =ResponseTypeGallery.BorderColor
+        HoverFill: =ResponseTypeGallery.Fill
+        Items: |-
+            =Table(
+                {Row: 1, Title: "Generic", Image: 'generic-purple', Response: "out of office"}, {Row: 2, Title: "Business", Image: 'business-purple', Response: "out on business"}, 
+                {Row: 3, Title: "Vacation", Image: 'vacation-purple', Response: "on vacation"}, {Row: 4, Title: "Personal", Image: 'personal-purple', Response: "on personal leave"}
+            )
+        Layout: =Layout.Vertical
+        PressedBorderColor: =ResponseTypeGallery.BorderColor
+        PressedFill: =ResponseTypeGallery.Fill
+        TemplateFill: =If(ThisItem.IsSelected, RGBA(224, 223, 255, 1))
+        TemplatePadding: =15
+        TemplateSize: =190
+        Width: =424
+        WrapCount: =2
+        X: =470
+        Y: =252
+        ZIndex: =17
+
+        Rectangle3 As rectangle:
+            BorderColor: =RGBA(230, 227, 230, 1)
+            BorderThickness: =2
+            DisabledFill: =Rectangle3.Fill
+            Fill: =RGBA(0,0,0,0)
+            FocusedBorderColor: =Rectangle3.BorderColor
+            Height: =Parent.TemplateHeight
+            HoverFill: =Rectangle3.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Rectangle3.Fill
+            Width: =Parent.TemplateWidth
+            ZIndex: =1
+
+        Image2 As image:
+            FocusedBorderColor: =Image2.BorderColor
+            Height: =50
+            HoverBorderColor: =ColorFade(Image2.BorderColor, 20%)
+            HoverFill: =ColorFade(Image2.Fill, 20%)
+            Image: =ThisItem.Image
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(Image2.BorderColor, -20%)
+            PressedFill: =ColorFade(Image2.Fill, -20%)
+            Width: =50
+            X: =Parent.TemplateWidth / 2 - Image2.Width / 2
+            Y: =Parent.TemplateHeight / 2 - Image2.Height
+            ZIndex: =2
+
+        Label12 As label:
+            Align: =Center
+            Color: =RGBA(80, 55, 255, 1)
+            FocusedBorderColor: =Label12.BorderColor
+            FocusedBorderThickness: =2
+            Font: =Font.Lato
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =70
+            HoverBorderColor: =Label12.BorderColor
+            HoverColor: =Label12.Color
+            HoverFill: =Label12.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =Label12.BorderColor
+            PressedColor: =Label12.Color
+            PressedFill: =Label12.Fill
+            Size: =14
+            TabIndex: =0
+            Text: =ThisItem.Title
+            Width: =189.5
+            Y: =Image2.Y + Image2.Height
+            ZIndex: =3
+
+    Image3 As image:
+        FocusedBorderColor: =Image3.BorderColor
+        Height: =43
+        HoverBorderColor: =ColorFade(Image3.BorderColor, 20%)
+        HoverFill: =ColorFade(Image3.Fill, 20%)
+        Image: |-
+            =Switch(ResponseTypeGallery.Selected.Row, 
+                1, 'generic-black@3x_new',
+                2, 'work-response-black@3x_new',
+                3, 'vacation-black@3x_new',
+                4, 'personal-response-black@3x_new'
+            )
+        PaddingBottom: =5
+        PaddingLeft: =5
+        PaddingRight: =5
+        PaddingTop: =5
+        PressedBorderColor: =ColorFade(Image3.BorderColor, -20%)
+        PressedFill: =ColorFade(Image3.Fill, -20%)
+        Width: =50
+        X: =533
+        Y: =114
+        ZIndex: =18
+
+    NextButton_3 As button:
+        BorderColor: =ColorFade(NextButton_3.Fill, -50%)
+        DisabledBorderColor: =ColorFade(NextButton_3.BorderColor, 70%)
+        DisplayMode: =If(WarningLabel.Visible, Disabled, Edit)
+        Fill: =RGBA(80, 55, 255, 1)
+        FocusedBorderColor: =NextButton_3.BorderColor
+        Height: =51
+        HoverBorderColor: =ColorFade(NextButton_3.BorderColor, 20%)
+        HoverColor: =NextButton_3.Color
+        HoverFill: =ColorFade(NextButton_3.Fill, 20%)
+        OnSelect: =Navigate(EmailAccessScreen, None)
+        PressedBorderColor: =NextButton_3.Fill
+        PressedColor: =NextButton_3.Fill
+        PressedFill: =NextButton_3.Color
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =14
+        Text: ="Next"
+        Width: =141
+        X: =1158
+        Y: =687+0
+        ZIndex: =19
+
+    Rectangle4_2 As rectangle:
+        DisabledFill: =Rectangle4_2.Fill
+        Fill: |-
+            =ColorValue("#F1F1F1")
+        FocusedBorderColor: =Rectangle4_2.BorderColor
+        Height: =2
+        HoverFill: =Rectangle4_2.Fill
+        PressedFill: =Rectangle4_2.Fill
+        Width: =1366
+        X: =0+0
+        Y: =227+0
+        ZIndex: =20
+

@@ -1,0 +1,270 @@
+ClearCalendarScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: |-
+        =ClearCollect(EventConflicts, 
+            AddColumns(Filter(FutureCalendarEvents, 
+                DateTimeValue(Start) >= DateTimeValue(_createdCalendarEvent.Start),
+                DateTimeValue(End) <= DateTimeValue(_createdCalendarEvent.End),
+                Id <> _createdCalendarEvent.Id), "Remove", true)
+        )
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Rectangle2_12 As rectangle:
+        DisabledFill: =Rectangle2_12.Fill
+        Fill: =RGBA(224, 223, 255, 1)
+        FocusedBorderColor: =Rectangle2_12.BorderColor
+        Height: =110
+        HoverFill: =Rectangle2_12.Fill
+        PressedFill: =Rectangle2_12.Fill
+        Width: =1366
+        ZIndex: =1
+
+    icon3_9 As icon.ChevronLeft:
+        AccessibleLabel: ="Previous page"
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledFill: =icon3_9.Fill
+        FocusedBorderColor: =icon3_9.BorderColor
+        Height: =100
+        HoverBorderColor: =ColorFade(icon3_9.BorderColor, 20%)
+        HoverColor: =ColorFade(icon3_9.Color, 20%)
+        HoverFill: =icon3_9.Fill
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Back()
+        PaddingBottom: =25
+        PaddingLeft: =25
+        PaddingRight: =25
+        PaddingTop: =25
+        PressedBorderColor: =ColorFade(icon3_9.BorderColor, -20%)
+        PressedColor: =ColorFade(icon3_9.Color, -20%)
+        PressedFill: =icon3_9.Fill
+        TabIndex: =0
+        Width: =89
+        ZIndex: =11
+
+    NextButton_10 As button:
+        BorderColor: =ColorFade(NextButton_10.Fill, -50%)
+        DisabledBorderColor: =ColorFade(NextButton_10.BorderColor, 70%)
+        DisplayMode: =Edit
+        Fill: =RGBA(80, 55, 255, 1)
+        FocusedBorderColor: =NextButton_10.BorderColor
+        Height: =51
+        HoverBorderColor: =ColorFade(NextButton_10.BorderColor, 20%)
+        HoverColor: =NextButton_10.Color
+        HoverFill: =ColorFade(NextButton_10.Fill, 20%)
+        OnSelect: |-
+            =Concurrent(
+                //clears all selected events from calendar
+                ForAll(EventConflicts, Office365.CalendarDeleteItem(_myCalendarID, Id)),
+                Set(_clearedEventsCount, CountRows(EventConflicts)));
+            Navigate(SuccessScreen, None, {_sendingInvite: false});
+            //Clears the ClearedEvents collection and refreshes the FutureCalendarEvents collection
+            Clear(EventConflicts);
+            ClearCollect(FutureCalendarEvents, Office365.GetEventsCalendarViewV2(_myCalendarID, Text(Now(), UTC), Text(DateAdd(Now(), 90, Days))).value)
+        PressedBorderColor: =NextButton_10.Fill
+        PressedColor: =NextButton_10.Fill
+        PressedFill: =NextButton_10.Color
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =14
+        Text: ="Clear " & CountRows(Filter(EventConflicts, Remove)) & " conflicts"
+        Width: =141
+        X: =1158
+        Y: =687
+        ZIndex: =19
+
+    Label2_2 As label:
+        Align: =Center
+        FocusedBorderColor: =Label2_2.BorderColor
+        Font: =Font.Lato
+        FontWeight: =Semibold
+        Height: =110
+        HoverBorderColor: =Label2_2.BorderColor
+        HoverColor: =Label2_2.Color
+        HoverFill: =Label2_2.Fill
+        PressedBorderColor: =Label2_2.BorderColor
+        PressedColor: =Label2_2.Color
+        PressedFill: =Label2_2.Fill
+        Size: =14
+        Text: ="Clear calendar"
+        Width: =882
+        X: =Parent.Width / 2 - Label2_2.Width / 2
+        ZIndex: =20
+
+    Label7_9 As label:
+        FocusedBorderColor: =Label7_9.BorderColor
+        Font: =Font.Lato
+        Height: =37
+        HoverBorderColor: =Label7_9.BorderColor
+        HoverColor: =Label7_9.Color
+        HoverFill: =Label7_9.Fill
+        PressedBorderColor: =Label7_9.BorderColor
+        PressedColor: =Label7_9.Color
+        PressedFill: =Label7_9.Fill
+        Size: =14
+        Text: ="Select the meetings you'd like to decline"
+        Width: =559
+        X: =403
+        Y: =127
+        ZIndex: =21
+
+    Checkbox2 As checkbox:
+        CheckboxBorderColor: =RGBA(4, 144, 255, 1)
+        CheckmarkFill: =RGBA(4, 144, 255, 1)
+        Color: =RGBA(4, 144, 255, 1)
+        Default: =_clearAll
+        FocusedBorderColor: =Checkbox2.BorderColor
+        FontWeight: =Semibold
+        Height: =79
+        HoverBorderColor: =ColorFade(Checkbox2.BorderColor, 30%)
+        HoverFill: =ColorFade(Checkbox2.Fill, 30%)
+        OnCheck: |-
+            =UpdateIf(EventConflicts, true, {Remove: true});
+            Set(_clearAll, true)
+        OnUncheck: |-
+            =UpdateIf(EventConflicts, true, {Remove: false})
+        PressedBorderColor: =ColorFade(Checkbox2.BorderColor, -30%)
+        PressedFill: =ColorFade(Checkbox2.Fill, -30%)
+        Size: =14
+        Text: ="Select all conflicts"
+        Width: =362
+        X: =403 + 15
+        Y: =164
+        ZIndex: =22
+
+    Label25 As label:
+        Align: =Center
+        FocusedBorderColor: =Label25.BorderColor
+        Font: =Font.Lato
+        Height: =63
+        HoverBorderColor: =Label25.BorderColor
+        HoverColor: =Label25.Color
+        HoverFill: =Label25.Fill
+        PressedBorderColor: =Label25.BorderColor
+        PressedColor: =Label25.Color
+        PressedFill: =Label25.Fill
+        Size: =14
+        Text: ="No events to clear"
+        Visible: =CountRows(ConflictsGallery.AllItems) = 0
+        Width: =264
+        X: =550
+        Y: =427
+        ZIndex: =23
+
+    ConflictsGallery As gallery.galleryVertical:
+        AccessibleLabel: ="Conflicting events gallery"
+        DisabledBorderColor: =ConflictsGallery.BorderColor
+        DisabledFill: =ConflictsGallery.Fill
+        Height: =431
+        HoverBorderColor: =ConflictsGallery.BorderColor
+        HoverFill: =ConflictsGallery.Fill
+        Items: |-
+            =//only show dates within the out of office range that don't match the created calendar event
+            EventConflicts
+        Layout: =Layout.Vertical
+        OnSelect: |-
+            =If(ThisItem.Remove, 
+                UpdateIf(EventConflicts, Id = ThisItem.Id && Subject = ThisItem.Subject, {Remove: false}); Set(_clearAll, false),
+                UpdateIf(EventConflicts, Id = ThisItem.Id && Subject = ThisItem.Subject, {Remove: true}); If(CountRows(ConflictsGallery.AllItems) >= CountRows(Filter(EventConflicts, Remove)), Set(_clearAll, true)))
+        PressedBorderColor: =ConflictsGallery.BorderColor
+        PressedFill: =ConflictsGallery.Fill
+        TemplateFill: =RGBA(0,0,0,0)
+        TemplatePadding: =15
+        TemplateSize: =151
+        Width: =559
+        X: =403
+        Y: =243
+        ZIndex: =24
+
+        Rectangle6 As rectangle:
+            BorderColor: =RGBA(144, 145, 151, 1)
+            BorderThickness: =2
+            DisabledFill: =Rectangle6.Fill
+            Fill: =If(ThisItem.Remove, RGBA(4, 144, 255, 0.1), RGBA(0,0,0,0))
+            FocusedBorderColor: =Rectangle6.BorderColor
+            Height: =147
+            HoverFill: =Rectangle6.Fill
+            OnSelect: =Select(Parent)
+            PressedFill: =Rectangle6.Fill
+            TabIndex: =0
+            Width: =529.12890625
+            X: =Parent.TemplateWidth / 2 - Rectangle6.Width / 2
+            ZIndex: =1
+
+        Image6 As image:
+            FocusedBorderColor: =Image6.BorderColor
+            Height: =30
+            HoverBorderColor: =ColorFade(Image6.BorderColor, 20%)
+            HoverFill: =ColorFade(Image6.Fill, 20%)
+            Image: ='outlook-icon@3x'
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(Image6.BorderColor, -20%)
+            PressedFill: =ColorFade(Image6.Fill, -20%)
+            Width: =30
+            X: =24
+            Y: =12
+            ZIndex: =2
+
+        Label20 As label:
+            Color: =RGBA(4, 144, 255, 1)
+            FocusedBorderColor: =Label20.BorderColor
+            Font: =Font.Lato
+            FontWeight: =Semibold
+            Height: =26
+            HoverBorderColor: =Label20.BorderColor
+            HoverColor: =Label20.Color
+            HoverFill: =Label20.Fill
+            OnSelect: =Select(Parent)
+            PaddingBottom: =3
+            PaddingTop: =3
+            PressedBorderColor: =Label20.BorderColor
+            PressedColor: =Label20.Color
+            PressedFill: =Label20.Fill
+            Size: =14
+            Text: =ThisItem.Subject
+            Width: =426
+            Wrap: =false
+            X: =79
+            Y: =16
+            ZIndex: =3
+
+        Label21 As label:
+            FocusedBorderColor: =Label21.BorderColor
+            Font: =Font.Lato
+            FontWeight: =Normal
+            Height: =37
+            HoverBorderColor: =Label21.BorderColor
+            HoverColor: =Label21.Color
+            HoverFill: =Label21.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =Label21.BorderColor
+            PressedColor: =Label21.Color
+            PressedFill: =Label21.Fill
+            Size: =14
+            Text: =Text(DateValue(ThisItem.Start), ShortDate) & "|" & TimeValue(ThisItem.Start) & " - " & TimeValue(ThisItem.End) 
+            Width: =481
+            X: =24
+            Y: =55
+            ZIndex: =4
+
+        Label22 As label:
+            FocusedBorderColor: =Label22.BorderColor
+            Font: =Font.Lato
+            FontWeight: =Normal
+            Height: =39
+            HoverBorderColor: =Label22.BorderColor
+            HoverColor: =Label22.Color
+            HoverFill: =Label22.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =Label22.BorderColor
+            PressedColor: =Label22.Color
+            PressedFill: =Label22.Fill
+            Size: =14
+            Text: |-
+                ="Show as: " & Upper(ThisItem.ShowAs)
+            Width: =476
+            X: =29
+            Y: =92
+            ZIndex: =5
+

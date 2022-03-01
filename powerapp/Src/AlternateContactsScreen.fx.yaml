@@ -1,0 +1,500 @@
+AlternateContactsScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: =Set(_newMessageStep, 4)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Rectangle2_6 As rectangle:
+        DisabledFill: =Rectangle2_6.Fill
+        Fill: =RGBA(224, 223, 255, 1)
+        FocusedBorderColor: =Rectangle2_6.BorderColor
+        Height: =110
+        HoverFill: =Rectangle2_6.Fill
+        PressedFill: =Rectangle2_6.Fill
+        Width: =1366
+        ZIndex: =1
+
+    GalleryProgress_3 As gallery.galleryHorizontal:
+        AccessibleLabel: ="Progress bar"
+        DisabledBorderColor: =GalleryProgress_3.BorderColor
+        DisabledFill: =GalleryProgress_3.Fill
+        DisplayMode: =DisplayMode.View
+        Height: =100
+        HoverBorderColor: =GalleryProgress_3.BorderColor
+        HoverFill: =GalleryProgress_3.Fill
+        Items: =ProgressTable
+        PressedBorderColor: =GalleryProgress_3.BorderColor
+        PressedFill: =GalleryProgress_3.Fill
+        ShowScrollbar: =false
+        TemplateSize: =200
+        Width: =1043.875
+        X: =161
+        ZIndex: =2
+
+        Label4_7 As label:
+            Align: =Center
+            Color: =Black
+            FocusedBorderColor: =Label4_7.BorderColor
+            FocusedBorderThickness: =02
+            FontWeight: =If(ThisItem.Row = _newMessageStep, Bold, Normal)
+            Height: =35
+            HoverBorderColor: =Label4_7.BorderColor
+            HoverColor: =Label4_7.Color
+            HoverFill: =Label4_7.Fill
+            OnSelect: =Select(Parent)
+            PaddingLeft: =1.5
+            PaddingRight: =1.5
+            PressedBorderColor: =Label4_7.BorderColor
+            PressedColor: =Label4_7.Color
+            PressedFill: =Label4_7.Fill
+            Size: =10
+            Text: =ThisItem.Text
+            Width: =Parent.TemplateWidth - Label4_7.X * 2
+            X: =3
+            Y: =55
+            ZIndex: =1
+
+        Rectangle2_7 As rectangle:
+            DisabledFill: =Rectangle2_7.Fill
+            Fill: =If(ThisItem.Row = _newMessageStep, RGBA(80, 55, 255, 1),RGBA(183,183,183,1))
+            FocusedBorderColor: =Rectangle2_7.BorderColor
+            Height: =17
+            HoverFill: =Rectangle2_7.Fill
+            OnSelect: =
+            PressedFill: =Rectangle2_7.Fill
+            Visible: =ThisItem.Row >= _newMessageStep
+            Width: =Parent.TemplateWidth - Rectangle2_7.X*2
+            X: =15
+            Y: =24
+            ZIndex: =2
+
+        icon10_6 As icon.Check:
+            AccessibleLabel: ="This section completed"
+            Color: =RGBA(80, 55, 255, 1)
+            DisabledFill: =icon10_6.Fill
+            FocusedBorderColor: =icon10_6.BorderColor
+            Height: =49
+            HoverBorderColor: =ColorFade(icon10_6.BorderColor, 20%)
+            HoverColor: =ColorFade(icon10_6.Color, 20%)
+            HoverFill: =icon10_6.Fill
+            Icon: =Icon.Check
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(icon10_6.BorderColor, -20%)
+            PressedColor: =ColorFade(icon10_6.Color, -20%)
+            PressedFill: =icon10_6.Fill
+            Visible: =ThisItem.Row < _newMessageStep
+            X: =Parent.TemplateWidth / 2 - icon10_6.Width / 2
+            Y: =6
+            ZIndex: =3
+
+    icon3_5 As icon.ChevronLeft:
+        AccessibleLabel: ="Previous page"
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledFill: =icon3_5.Fill
+        FocusedBorderColor: =icon3_5.BorderColor
+        Height: =100
+        HoverBorderColor: =ColorFade(icon3_5.BorderColor, 20%)
+        HoverColor: =ColorFade(icon3_5.Color, 20%)
+        HoverFill: =icon3_5.Fill
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Back()
+        PaddingBottom: =25
+        PaddingLeft: =25
+        PaddingRight: =25
+        PaddingTop: =25
+        PressedBorderColor: =ColorFade(icon3_5.BorderColor, -20%)
+        PressedColor: =ColorFade(icon3_5.Color, -20%)
+        PressedFill: =icon3_5.Fill
+        TabIndex: =0
+        Width: =89
+        ZIndex: =11
+
+    Label10_2 As label:
+        FocusedBorderColor: =Label10_2.BorderColor
+        Font: =Font.Lato
+        Height: =43
+        HoverBorderColor: =Label10_2.BorderColor
+        HoverColor: =Label10_2.Color
+        HoverFill: =Label10_2.Fill
+        PaddingLeft: =15
+        PressedBorderColor: =Label10_2.BorderColor
+        PressedColor: =Label10_2.Color
+        PressedFill: =Label10_2.Fill
+        Size: =14
+        Text: =TitleInput.Text
+        Width: =232
+        Wrap: =false
+        X: =583
+        Y: =114
+        ZIndex: =13
+
+    Label11_4 As label:
+        FocusedBorderColor: =Label11_4.BorderColor
+        Font: =Font.Lato
+        Height: =70
+        HoverBorderColor: =Label11_4.BorderColor
+        HoverColor: =Label11_4.Color
+        HoverFill: =Label11_4.Fill
+        PaddingLeft: =15
+        PressedBorderColor: =Label11_4.BorderColor
+        PressedColor: =Label11_4.Color
+        PressedFill: =Label11_4.Fill
+        Size: =14
+        Text: |-
+            =Text(StartDatePicker.SelectedDate, "[$-en-US]mmm d") & "
+            " & StartTimeDropdown.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BName'
+        Width: =120
+        X: =icon5_2.X - Label11_4.Width - 20
+        Y: =Label10_2.Y + Label10_2.Height
+        ZIndex: =14
+
+    Label11_5 As label:
+        FocusedBorderColor: =Label11_5.BorderColor
+        Font: =Font.Lato
+        Height: =70
+        HoverBorderColor: =Label11_5.BorderColor
+        HoverColor: =Label11_5.Color
+        HoverFill: =Label11_5.Fill
+        PaddingLeft: =15
+        PressedBorderColor: =Label11_5.BorderColor
+        PressedColor: =Label11_5.Color
+        PressedFill: =Label11_5.Fill
+        Size: =14
+        Text: |-
+            =Text(EndDatePicker.SelectedDate, "[$-en-US]mmm d") & "
+            " & EndTimeDropdown.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BName'
+        Width: =120
+        X: =icon5_2.X + icon5_2.Width + 20
+        Y: =Label10_2.Y + Label10_2.Height
+        ZIndex: =15
+
+    icon5_2 As icon.ArrowRight:
+        Color: =RGBA(47,41,43,1)
+        DisabledFill: =icon5_2.Fill
+        DisplayMode: =DisplayMode.View
+        FocusedBorderColor: =icon5_2.BorderColor
+        Height: =70
+        HoverBorderColor: =ColorFade(icon5_2.BorderColor, 20%)
+        HoverColor: =ColorFade(icon5_2.Color, 20%)
+        HoverFill: =icon5_2.Fill
+        Icon: =Icon.ArrowRight
+        PressedBorderColor: =ColorFade(icon5_2.BorderColor, -20%)
+        PressedColor: =ColorFade(icon5_2.Color, -20%)
+        PressedFill: =icon5_2.Fill
+        Width: =45
+        X: =Parent.Width/2 - icon5_2.Width/2
+        Y: =Label10_2.Y + Label10_2.Height
+        ZIndex: =16
+
+    Image3_2 As image:
+        FocusedBorderColor: =Image3_2.BorderColor
+        Height: =43
+        HoverBorderColor: =ColorFade(Image3_2.BorderColor, 20%)
+        HoverFill: =ColorFade(Image3_2.Fill, 20%)
+        Image: |-
+            =Switch(ResponseTypeGallery.Selected.Row, 
+                1, 'generic-black@3x_new',
+                2, 'work-response-black@3x_new',
+                3, 'vacation-black@3x_new',
+                4, 'personal-response-black@3x_new'
+            )
+        PaddingBottom: =5
+        PaddingLeft: =5
+        PaddingRight: =5
+        PaddingTop: =5
+        PressedBorderColor: =ColorFade(Image3_2.BorderColor, -20%)
+        PressedFill: =ColorFade(Image3_2.Fill, -20%)
+        Width: =50
+        X: =533
+        Y: =114
+        ZIndex: =18
+
+    NextButton_6 As button:
+        BorderColor: =ColorFade(NextButton_6.Fill, -50%)
+        DisabledBorderColor: =ColorFade(NextButton_6.BorderColor, 70%)
+        DisplayMode: =If(CountRows(AltContactMessages) = 0, Disabled, Edit)
+        Fill: =RGBA(80, 55, 255, 1)
+        FocusedBorderColor: =NextButton_6.BorderColor
+        Height: =51
+        HoverBorderColor: =ColorFade(NextButton_6.BorderColor, 20%)
+        HoverColor: =NextButton_6.Color
+        HoverFill: =ColorFade(NextButton_6.Fill, 20%)
+        OnSelect: |-
+            =//sets the Message field for each row in the AltContactMessages to be its corresponding PlainTextMessage field + an </li>
+            UpdateIf(AltContactMessages, true, {Message: " " & PlainTextMessage & "</li>"});
+            //if the regarding message was left blank, sets this person's message to be "regarding general inquiries"
+            UpdateIf(AltContactMessages, Trim(PlainTextMessage) = "regarding" || Trim(PlainTextMessage) = "", {Message: " regarding general inquiries</li>"});
+            //a variable which contains all of the relevant information from the out of office wizard
+            Set(_oOFRecord, {Title:TitleInput.Text, StartDate: StartDatePicker.SelectedDate, EndDate: EndDatePicker.SelectedDate, StartTime: StartTimeDropdown.SelectedText, EndTime: EndTimeDropdown.SelectedText, ResponseType: ResponseTypeGallery.Selected, EmailAccess: InternetAccessGallery.Selected, RegardingText: Concat(AltContactMessages, "<ul>" & EmailURL & Message & "</ul>")});
+            //sets the internal out of office message based on the user inputs from the wizard
+            Set(_internalMessage,
+            "Hi,
+            
+            I am " & _oOFRecord.ResponseType.Response & " from " & _oOFRecord.StartTime.'data-ADB4D7A662F548B49FAC2B986E348A1BName' & " " & Text(_oOFRecord.StartDate, "[$-en-US]mm/dd") & " - " & _oOFRecord.EndTime.'data-ADB4D7A662F548B49FAC2B986E348A1BName' & " " & Text(_oOFRecord.EndDate, "[$-en-US]mm/dd") & " with " & _oOFRecord.EmailAccess.Response & " access to email.
+            Please contact: " & _oOFRecord.RegardingText & " Otherwise I will respond to your email as soon as I return.
+            
+            <br />
+            Thank you,
+            "& _myProfile.DisplayName);
+            //sets the external out of office message = internal out of office message
+            Set(_externalMessage, _internalMessage);
+            Navigate(ReviewScreen, None)
+        PressedBorderColor: =NextButton_6.Fill
+        PressedColor: =NextButton_6.Fill
+        PressedFill: =NextButton_6.Color
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =14
+        Text: ="Next"
+        Width: =141
+        X: =1158
+        Y: =687+0
+        ZIndex: =19
+
+    ContactsComboBox As combobox:
+        AccessibleLabel: ="Contacts combo box"
+        BorderColor: =RGBA(80, 55, 255, 1)
+        ChevronBackground: =RGBA(80, 55, 255, 1)
+        ChevronHoverBackground: =ColorFade(ContactsComboBox.ChevronBackground, 20%)
+        ChevronHoverFill: =ContactsComboBox.ChevronFill
+        DefaultSelectedItems: =CurrentAltContacts
+        DisplayFields: =["DisplayName"]
+        FocusedBorderColor: =ContactsComboBox.BorderColor
+        FocusedBorderThickness: =6
+        Font: =Font.Lato
+        Height: =48
+        HoverBorderColor: =ColorFade(ContactsComboBox.BorderColor, 15%)
+        HoverColor: =ContactsComboBox.Color
+        InputTextPlaceholder: ="Find contacts"
+        Items: =MyPeople
+        MoreItemsButtonColor: =ContactsComboBox.ChevronBackground
+        OnChange: |-
+            =//update the CurrentAltContacts to reflect the user made changes
+            ClearCollect(CurrentAltContacts, ContactsComboBox.SelectedItems);
+            //remove the contact from the AltContactMessages collection if the user removed them from the CurrentAltContacts collection
+            RemoveIf(AltContactMessages, IsBlank(LookUp(CurrentAltContacts, UserPrincipalName = AltContactId)));
+            //Add another row to AltContactMessages if user added a new person to CurrentAltContacts 
+            Collect(AltContactMessages, 
+                AddColumns(RenameColumns(Filter(CurrentAltContacts, !(UserPrincipalName in AltContactMessages.AltContactId)), "UserPrincipalName", "AltContactId"),
+                    "EmailURL", "<li><a href=mailto:" & AltContactId & ">" & DisplayName & "</a>", "Message", "", "PlainTextMessage", "regarding "))
+        PressedBorderColor: =ContactsComboBox.HoverBorderColor
+        PressedColor: =ContactsComboBox.Color
+        PressedFill: =ColorFade(ContactsComboBox.SelectionFill, -30%)
+        SearchFields: =["Birthday"]
+        SearchItems: =Search(MyPeople,ContactsComboBox.SearchText,"Birthday")
+        SelectionTagColor: =ContactsComboBox.HoverColor
+        SelectionTagFill: =RGBA(224, 223, 255, 1)
+        Size: =14
+        Width: =MessageComposeGallery.TemplateWidth
+        X: =482
+        Y: =297
+        ZIndex: =20
+
+    MessageComposeGallery As gallery.galleryVertical:
+        AccessibleLabel: ="Compose messages gallery"
+        DisabledBorderColor: =MessageComposeGallery.BorderColor
+        DisabledFill: =MessageComposeGallery.Fill
+        Height: =320
+        HoverBorderColor: =MessageComposeGallery.BorderColor
+        HoverFill: =MessageComposeGallery.Fill
+        Items: =CurrentAltContacts
+        Layout: =Layout.Vertical
+        PressedBorderColor: =MessageComposeGallery.BorderColor
+        PressedFill: =MessageComposeGallery.Fill
+        TemplateFill: |-
+            =ColorValue("#F4F4F4")
+        TemplatePadding: =15
+        TemplateSize: =145
+        Width: =424
+        X: =467
+        Y: =422
+        ZIndex: =21
+
+        ContactName As label:
+            Color: |-
+                =ColorValue("#333333")
+            FocusedBorderColor: =ContactName.BorderColor
+            Font: =Font.Lato
+            FontWeight: =Normal
+            Height: =44
+            HoverBorderColor: =ContactName.BorderColor
+            HoverColor: =ContactName.Color
+            HoverFill: =ContactName.Fill
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ContactName.BorderColor
+            PressedColor: =ContactName.Color
+            PressedFill: =ContactName.Fill
+            Size: =14
+            Text: =ThisItem.DisplayName
+            Width: =368
+            X: =13
+            Y: =14
+            ZIndex: =2
+
+        Label13 As label:
+            Color: |-
+                =ColorValue("#666666")
+            FocusedBorderColor: =Label13.BorderColor
+            Font: =Font.Lato
+            Height: =61
+            HoverBorderColor: =Label13.BorderColor
+            HoverColor: =Label13.Color
+            HoverFill: =Label13.Fill
+            OnSelect: =Select(Parent)
+            PaddingLeft: =0
+            PressedBorderColor: =Label13.BorderColor
+            PressedColor: =Label13.Color
+            PressedFill: =Label13.Fill
+            Size: =20
+            Text: ="Regarding (optional)"
+            Visible: =false
+            Width: =339
+            X: =60
+            Y: =69
+            ZIndex: =3
+
+        PersonalMessage As text:
+            AccessibleLabel: ="Enter message specific to " & ThisItem.DisplayName
+            BorderColor: =RGBA(227, 227, 227, 1)
+            BorderThickness: =1
+            Default: =LookUp(AltContactMessages, AltContactId = ThisItem.UserPrincipalName).PlainTextMessage
+            FocusedBorderColor: =PersonalMessage.BorderColor
+            Font: =Font.Lato
+            Height: =61
+            HintText: |-
+                ="Ex: monorail project"
+            HoverBorderColor: =PersonalMessage.BorderColor
+            HoverFill: =ColorFade(RGBA(47, 41, 44, 1), 90%)
+            Mode: =TextMode.MultiLine
+            OnChange: |-
+                =//update the corresponding PlainTextMessage field in the AltContactMessages collection
+                UpdateIf(AltContactMessages, AltContactId = ThisItem.UserPrincipalName, 
+                  {PlainTextMessage: PersonalMessage.Text})
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =PersonalMessage.HoverBorderColor
+            PressedColor: =PersonalMessage.Color
+            PressedFill: =PersonalMessage.Fill
+            RadiusBottomLeft: =PersonalMessage.RadiusTopLeft
+            RadiusBottomRight: =PersonalMessage.RadiusTopLeft
+            RadiusTopLeft: =0
+            RadiusTopRight: =PersonalMessage.RadiusTopLeft
+            Size: =14
+            Width: =Parent.TemplateWidth - PersonalMessage.X*2
+            X: =13
+            Y: =69
+            ZIndex: =4
+
+        icon6 As icon.Cancel:
+            AccessibleLabel: ="Remove user"
+            Color: =RGBA(101, 94, 254, 1)
+            DisabledFill: =icon6.Fill
+            DisplayMode: =If(CountRows(AltContactMessages) > 1, DisplayMode.Edit, Disabled)
+            FocusedBorderColor: =icon6.BorderColor
+            Height: =55
+            HoverBorderColor: =ColorFade(icon6.BorderColor, 20%)
+            HoverColor: =ColorFade(icon6.Color, 20%)
+            HoverFill: =icon6.Fill
+            Icon: =Icon.Cancel
+            OnSelect: |
+                =//Remove this item from the two collections and rest the ContactsComboBox so it will reflect the changes
+                Remove(CurrentAltContacts, ThisItem);
+                RemoveIf(AltContactMessages, AltContactId = ThisItem.UserPrincipalName);
+                Reset(ContactsComboBox)
+            PaddingBottom: =icon6.PaddingTop
+            PaddingLeft: =icon6.PaddingTop
+            PaddingRight: =icon6.PaddingTop
+            PaddingTop: =10
+            PressedBorderColor: =ColorFade(icon6.BorderColor, -20%)
+            PressedColor: =ColorFade(icon6.Color, -20%)
+            PressedFill: =icon6.Fill
+            TabIndex: =0
+            Width: =55
+            X: =339
+            Y: =3
+            ZIndex: =5
+
+    Label11_6 As label:
+        Color: |-
+            =ColorValue("#333333")
+        FocusedBorderColor: =Label11_6.BorderColor
+        Font: =Font.Lato
+        FontWeight: =Normal
+        Height: =47
+        HoverBorderColor: =Label11_6.BorderColor
+        HoverColor: =Label11_6.Color
+        HoverFill: =Label11_6.Fill
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedBorderColor: =Label11_6.BorderColor
+        PressedColor: =Label11_6.Color
+        PressedFill: =Label11_6.Fill
+        Size: =14
+        Text: ="Set a message for each contact"
+        Width: =274
+        X: =MessageComposeGallery.X + MessageComposeGallery.TemplatePadding - Label11_6.PaddingLeft
+        Y: =375
+        ZIndex: =22
+
+    AddContactsButton As button:
+        BorderColor: =RGBA(80, 55, 255, 1)
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledBorderColor: =ColorFade(AddContactsButton.BorderColor, 70%)
+        DisplayMode: =Edit
+        Fill: =White
+        FocusedBorderColor: =AddContactsButton.BorderColor
+        Height: =44
+        HoverBorderColor: =ColorFade(AddContactsButton.BorderColor, 20%)
+        HoverColor: =AddContactsButton.Color
+        HoverFill: =ColorFade(AddContactsButton.Fill, 20%)
+        OnSelect: =Navigate(AddContactsScreen, None)
+        PressedBorderColor: =AddContactsButton.Fill
+        PressedColor: =AddContactsButton.Fill
+        PressedFill: =AddContactsButton.Color
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =12
+        Text: ="Add Contact"
+        Width: =120
+        X: =756
+        Y: =245
+        ZIndex: =23
+
+    Label9 As label:
+        Align: =Center
+        FocusedBorderColor: =Label9.BorderColor
+        Font: =Font.Lato
+        FontWeight: =Semibold
+        Height: =70
+        HoverBorderColor: =Label9.BorderColor
+        HoverColor: =Label9.Color
+        HoverFill: =Label9.Fill
+        Live: =Live.Polite
+        PressedBorderColor: =Label9.BorderColor
+        PressedColor: =Label9.Color
+        PressedFill: =Label9.Fill
+        Size: =14
+        Text: ="Select a contact to start adding messages"
+        Visible: =CountRows(CurrentAltContacts) = 0
+        Width: =366
+        X: =Parent.Width / 2 - Label9.Width / 2
+        Y: =478
+        ZIndex: =24
+
+    Rectangle4 As rectangle:
+        DisabledFill: =Rectangle4.Fill
+        Fill: |-
+            =ColorValue("#F1F1F1")
+        FocusedBorderColor: =Rectangle4.BorderColor
+        Height: =2
+        HoverFill: =Rectangle4.Fill
+        PressedFill: =Rectangle4.Fill
+        Width: =1366
+        X: =0+0
+        Y: =227+0
+        ZIndex: =25
+

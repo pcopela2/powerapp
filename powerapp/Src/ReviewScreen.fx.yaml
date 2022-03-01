@@ -1,0 +1,361 @@
+ReviewScreen As screen:
+    Height: =Max(App.Height, App.DesignHeight)
+    OnVisible: =Set(_newMessageStep, 5)
+    Width: =Max(App.Width, App.DesignWidth)
+
+    Rectangle2_8 As rectangle:
+        DisabledFill: =Rectangle2_8.Fill
+        Fill: =RGBA(224, 223, 255, 1)
+        FocusedBorderColor: =Rectangle2_8.BorderColor
+        Height: =110
+        HoverFill: =Rectangle2_8.Fill
+        PressedFill: =Rectangle2_8.Fill
+        Width: =1366
+        ZIndex: =1
+
+    GalleryProgress_4 As gallery.galleryHorizontal:
+        AccessibleLabel: ="Progress bar"
+        DisabledBorderColor: =GalleryProgress_4.BorderColor
+        DisabledFill: =GalleryProgress_4.Fill
+        DisplayMode: =DisplayMode.View
+        Height: =100
+        HoverBorderColor: =GalleryProgress_4.BorderColor
+        HoverFill: =GalleryProgress_4.Fill
+        Items: =ProgressTable
+        PressedBorderColor: =GalleryProgress_4.BorderColor
+        PressedFill: =GalleryProgress_4.Fill
+        ShowScrollbar: =false
+        TemplateSize: =200
+        Width: =1043.875
+        X: =161
+        ZIndex: =2
+
+        Label4_8 As label:
+            Align: =Center
+            Color: =Black
+            FocusedBorderColor: =Label4_8.BorderColor
+            FocusedBorderThickness: =02
+            FontWeight: =If(ThisItem.Row = _newMessageStep, Bold, Normal)
+            Height: =35
+            HoverBorderColor: =Label4_8.BorderColor
+            HoverColor: =Label4_8.Color
+            HoverFill: =Label4_8.Fill
+            OnSelect: =Select(Parent)
+            PaddingLeft: =1.5
+            PaddingRight: =1.5
+            PressedBorderColor: =Label4_8.BorderColor
+            PressedColor: =Label4_8.Color
+            PressedFill: =Label4_8.Fill
+            Size: =10
+            Text: =ThisItem.Text
+            Width: =Parent.TemplateWidth - Label4_8.X * 2
+            X: =3
+            Y: =55
+            ZIndex: =1
+
+        Rectangle2_9 As rectangle:
+            DisabledFill: =Rectangle2_9.Fill
+            Fill: =If(ThisItem.Row = _newMessageStep, RGBA(80, 55, 255, 1),RGBA(183,183,183,1))
+            FocusedBorderColor: =Rectangle2_9.BorderColor
+            Height: =17
+            HoverFill: =Rectangle2_9.Fill
+            OnSelect: =
+            PressedFill: =Rectangle2_9.Fill
+            Visible: =ThisItem.Row >= _newMessageStep
+            Width: =Parent.TemplateWidth - Rectangle2_9.X*2
+            X: =15
+            Y: =24
+            ZIndex: =2
+
+        icon10_7 As icon.Check:
+            AccessibleLabel: ="This section completed"
+            Color: =RGBA(80, 55, 255, 1)
+            DisabledFill: =icon10_7.Fill
+            FocusedBorderColor: =icon10_7.BorderColor
+            Height: =49
+            HoverBorderColor: =ColorFade(icon10_7.BorderColor, 20%)
+            HoverColor: =ColorFade(icon10_7.Color, 20%)
+            HoverFill: =icon10_7.Fill
+            Icon: =Icon.Check
+            OnSelect: =Select(Parent)
+            PressedBorderColor: =ColorFade(icon10_7.BorderColor, -20%)
+            PressedColor: =ColorFade(icon10_7.Color, -20%)
+            PressedFill: =icon10_7.Fill
+            Visible: =ThisItem.Row < _newMessageStep
+            X: =Parent.TemplateWidth / 2 - icon10_7.Width / 2
+            Y: =6
+            ZIndex: =3
+
+    icon3_6 As icon.ChevronLeft:
+        AccessibleLabel: ="Previous page"
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledFill: =icon3_6.Fill
+        FocusedBorderColor: =icon3_6.BorderColor
+        Height: =100
+        HoverBorderColor: =ColorFade(icon3_6.BorderColor, 20%)
+        HoverColor: =ColorFade(icon3_6.Color, 20%)
+        HoverFill: =icon3_6.Fill
+        Icon: =Icon.ChevronLeft
+        OnSelect: =Back()
+        PaddingBottom: =25
+        PaddingLeft: =25
+        PaddingRight: =25
+        PaddingTop: =25
+        PressedBorderColor: =ColorFade(icon3_6.BorderColor, -20%)
+        PressedColor: =ColorFade(icon3_6.Color, -20%)
+        PressedFill: =icon3_6.Fill
+        TabIndex: =0
+        Width: =89
+        ZIndex: =11
+
+    Label10_3 As label:
+        FocusedBorderColor: =Label10_3.BorderColor
+        Font: =Font.Lato
+        Height: =43
+        HoverBorderColor: =Label10_3.BorderColor
+        HoverColor: =Label10_3.Color
+        HoverFill: =Label10_3.Fill
+        PaddingLeft: =15
+        PressedBorderColor: =Label10_3.BorderColor
+        PressedColor: =Label10_3.Color
+        PressedFill: =Label10_3.Fill
+        Size: =14
+        Text: =TitleInput.Text
+        Width: =232
+        Wrap: =false
+        X: =583
+        Y: =114
+        ZIndex: =13
+
+    Label11_7 As label:
+        FocusedBorderColor: =Label11_7.BorderColor
+        Font: =Font.Lato
+        Height: =70
+        HoverBorderColor: =Label11_7.BorderColor
+        HoverColor: =Label11_7.Color
+        HoverFill: =Label11_7.Fill
+        PaddingLeft: =15
+        PressedBorderColor: =Label11_7.BorderColor
+        PressedColor: =Label11_7.Color
+        PressedFill: =Label11_7.Fill
+        Size: =14
+        Text: |-
+            =Text(StartDatePicker.SelectedDate, "[$-en-US]mmm d") & "
+            " & StartTimeDropdown.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BName'
+        Width: =120
+        X: =icon5_3.X - Label11_7.Width - 20
+        Y: =Label10_3.Y + Label10_3.Height
+        ZIndex: =14
+
+    Label11_8 As label:
+        FocusedBorderColor: =Label11_8.BorderColor
+        Font: =Font.Lato
+        Height: =70
+        HoverBorderColor: =Label11_8.BorderColor
+        HoverColor: =Label11_8.Color
+        HoverFill: =Label11_8.Fill
+        PaddingLeft: =15
+        PressedBorderColor: =Label11_8.BorderColor
+        PressedColor: =Label11_8.Color
+        PressedFill: =Label11_8.Fill
+        Size: =14
+        Text: |-
+            =Text(EndDatePicker.SelectedDate, "[$-en-US]mmm d") & "
+            " & EndTimeDropdown.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BName'
+        Width: =120
+        X: =icon5_3.X + icon5_3.Width + 20
+        Y: =Label10_3.Y + Label10_3.Height
+        ZIndex: =15
+
+    icon5_3 As icon.ArrowRight:
+        Color: =RGBA(47,41,43,1)
+        DisabledFill: =icon5_3.Fill
+        DisplayMode: =DisplayMode.View
+        FocusedBorderColor: =icon5_3.BorderColor
+        Height: =70
+        HoverBorderColor: =ColorFade(icon5_3.BorderColor, 20%)
+        HoverColor: =ColorFade(icon5_3.Color, 20%)
+        HoverFill: =icon5_3.Fill
+        Icon: =Icon.ArrowRight
+        PressedBorderColor: =ColorFade(icon5_3.BorderColor, -20%)
+        PressedColor: =ColorFade(icon5_3.Color, -20%)
+        PressedFill: =icon5_3.Fill
+        Width: =45
+        X: =Parent.Width/2 - icon5_3.Width/2
+        Y: =Label10_3.Y + Label10_3.Height
+        ZIndex: =16
+
+    Image3_3 As image:
+        FocusedBorderColor: =Image3_3.BorderColor
+        Height: =43
+        HoverBorderColor: =ColorFade(Image3_3.BorderColor, 20%)
+        HoverFill: =ColorFade(Image3_3.Fill, 20%)
+        Image: |-
+            =Switch(ResponseTypeGallery.Selected.Row, 
+                1, 'generic-black@3x_new',
+                2, 'work-response-black@3x_new',
+                3, 'vacation-black@3x_new',
+                4, 'personal-response-black@3x_new'
+            )
+        PaddingBottom: =5
+        PaddingLeft: =5
+        PaddingRight: =5
+        PaddingTop: =5
+        PressedBorderColor: =ColorFade(Image3_3.BorderColor, -20%)
+        PressedFill: =ColorFade(Image3_3.Fill, -20%)
+        Width: =50
+        X: =533
+        Y: =114
+        ZIndex: =18
+
+    NextButton_7 As button:
+        BorderColor: =ColorFade(NextButton_7.Fill, -50%)
+        DisabledBorderColor: =ColorFade(NextButton_7.BorderColor, 70%)
+        DisplayMode: =Edit
+        Fill: =RGBA(80, 55, 255, 1)
+        FocusedBorderColor: =NextButton_7.BorderColor
+        Height: =51
+        HoverBorderColor: =ColorFade(NextButton_7.BorderColor, 20%)
+        HoverColor: =NextButton_7.Color
+        HoverFill: =ColorFade(NextButton_7.Fill, 20%)
+        OnSelect: |-
+            =//start and end times need to be passed into the connector in UTC time format
+            Set(_startTimeUTC, Text(DateAdd(_oOFRecord.StartDate, _oOFRecord.StartTime.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes', Minutes), DateTimeFormat.UTC));
+            Set(_endTimeUTC, Text(DateAdd(_oOFRecord.EndDate, _oOFRecord.EndTime.'data-ADB4D7A662F548B49FAC2B986E348A1BMinutes', Minutes), DateTimeFormat.UTC));
+            Set(_createdOOF, true);
+            
+            Concurrent(
+                //schedules the automatic replies
+                Office365.SetAutomaticRepliesSetting("Scheduled", If(_sendExternalResponse, "All", "None"), 
+                {ScheduledStartDateTimeOffset: _startTimeUTC,
+                 ScheduledEndDateTimeOffset: _endTimeUTC,
+                 InternalReplyMessage: InternalMessage.HtmlText,
+                 ExternalReplyMessage: ExternalMessage.HtmlText}),
+                //creates an event in your outlook calendar with ShowAs = free and ResponseRequested = false
+                Set(_createdCalendarEvent, Office365.V2CalendarPostItem(_myCalendarID, _oOFRecord.Title, _startTimeUTC, _endTimeUTC, 
+                {Body:_internalMessage, IsHtml: true, ShowAs: "Free", ResponseRequested: false})));
+                Navigate(WelcomeScreen, None)
+        PressedBorderColor: =NextButton_7.Fill
+        PressedColor: =NextButton_7.Fill
+        PressedFill: =NextButton_7.Color
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =14
+        Text: ="Submit"
+        Width: =141
+        X: =ExternalMessage.X + ExternalMessage.Width - NextButton_7.Width
+        Y: =687+0
+        ZIndex: =19
+
+    Rectangle4_3 As rectangle:
+        DisabledFill: =Rectangle4_3.Fill
+        Fill: |-
+            =ColorValue("#F1F1F1")
+        FocusedBorderColor: =Rectangle4_3.BorderColor
+        Height: =2
+        HoverFill: =Rectangle4_3.Fill
+        PressedFill: =Rectangle4_3.Fill
+        Width: =1366
+        X: =0+0
+        Y: =227+0
+        ZIndex: =25
+
+    Label10_11 As label:
+        FocusedBorderColor: =Label10_11.BorderColor
+        Font: =Font.Lato
+        HoverBorderColor: =Label10_11.BorderColor
+        HoverColor: =Label10_11.Color
+        HoverFill: =Label10_11.Fill
+        PressedBorderColor: =Label10_11.BorderColor
+        PressedColor: =Label10_11.Color
+        PressedFill: =Label10_11.Fill
+        Size: =14
+        Text: ="Inside my org"
+        Width: =182
+        Wrap: =false
+        X: =67
+        Y: =260
+        ZIndex: =26
+
+    InternalMessage As richTextEditor:
+        AccessibleLabel: ="Internal away message"
+        Default: =_internalMessage
+        Height: =299
+        OnChange: =Set(_internalMessage, InternalMessage.HtmlText)
+        Width: =535
+        X: =67
+        Y: =300
+        ZIndex: =27
+
+    Checkbox1 As checkbox:
+        CheckboxBorderColor: =RGBA(80, 55, 255, 1)
+        FocusedBorderColor: =Checkbox1.BorderColor
+        Height: =40
+        HoverBorderColor: =ColorFade(Checkbox1.BorderColor, 30%)
+        HoverFill: =ColorFade(Checkbox1.Fill, 30%)
+        OnCheck: =Set(_sendExternalResponse, true)
+        OnUncheck: =Set(_sendExternalResponse, false)
+        PressedBorderColor: =ColorFade(Checkbox1.BorderColor, -30%)
+        PressedFill: =ColorFade(Checkbox1.Fill, -30%)
+        Size: =14
+        Text: ="Send response outside my org"
+        Width: =316
+        X: =67
+        Y: =613
+        ZIndex: =28
+
+    ExternalMessage As richTextEditor:
+        AccessibleLabel: ="External away message"
+        Default: =_internalMessage
+        DisplayMode: =If(_sendExternalResponse, DisplayMode.Edit, Disabled)
+        Height: =299
+        OnChange: =Set(_externalMessage, ExternalMessage.HtmlText)
+        Width: =535
+        X: =Parent.Width - ExternalMessage.Width - 67
+        Y: =300
+        ZIndex: =29
+
+    EditIcon As icon.Edit:
+        AccessibleLabel: ="Edit out of office message"
+        Color: =RGBA(80, 55, 255, 1)
+        DisabledFill: =EditIcon.Fill
+        FocusedBorderColor: =EditIcon.BorderColor
+        Height: =43
+        HoverBorderColor: =ColorFade(EditIcon.BorderColor, 20%)
+        HoverColor: =ColorFade(EditIcon.Color, 20%)
+        HoverFill: =EditIcon.Fill
+        Icon: =Icon.Edit
+        OnSelect: =Navigate(TimeTitleScreen, None)
+        PaddingBottom: =7
+        PaddingLeft: =7
+        PaddingRight: =7
+        PaddingTop: =7
+        PressedBorderColor: =ColorFade(EditIcon.BorderColor, -20%)
+        PressedColor: =ColorFade(EditIcon.Color, -20%)
+        PressedFill: =EditIcon.Fill
+        TabIndex: =0
+        Width: =43
+        X: =815
+        Y: =114
+        ZIndex: =30
+
+    Label10_13 As label:
+        DisplayMode: =If(_sendExternalResponse, DisplayMode.Edit, Disabled)
+        FocusedBorderColor: =Label10_13.BorderColor
+        Font: =Font.Lato
+        HoverBorderColor: =Label10_13.BorderColor
+        HoverColor: =Label10_13.Color
+        HoverFill: =Label10_13.Fill
+        PressedBorderColor: =Label10_13.BorderColor
+        PressedColor: =Label10_13.Color
+        PressedFill: =Label10_13.Fill
+        Size: =14
+        Text: ="Outside my org"
+        Width: =535
+        Wrap: =false
+        X: =764
+        Y: =260
+        ZIndex: =31
+

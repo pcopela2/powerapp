@@ -1,0 +1,49 @@
+App As appinfo:
+    BackEnabled: =false
+    OnError: =
+    OnStart: |-
+        =//gets user profile, sets count variables to 0, gets user calendar ID, creates time selection collection
+        Concurrent(
+            Set(_myProfile, Office365Users.MyProfile()),
+            Set(_clearedEventsCount, 0),
+            Set(_inviteeCount, 0),
+            Set(_myCalendarID, LookUp(Office365.CalendarGetTables().value, DisplayName = "Calendar").Name),
+            ClearCollect(HoursList, 
+             {Name:"12:00 am",Minutes:0}, {Name:"12:30 am",Minutes:30}, {Name:"01:00 am",Minutes:60}, {Name:"01:30 am",Minutes:90},
+             {Name:"02:00 am",Minutes:120}, {Name:"02:30 am",Minutes:150}, {Name:"03:00 am",Minutes:180}, {Name:"03:30 am",Minutes:210},
+             {Name:"04:00 am",Minutes:240}, {Name:"04:30 am",Minutes:270}, {Name:"05:00 am",Minutes:300}, {Name:"05:30 am",Minutes:330}, 
+             {Name:"06:00 am",Minutes:360}, {Name:"06:30 am",Minutes:390}, {Name:"07:00 am",Minutes:420}, {Name:"07:30 am",Minutes:450}, 
+             {Name:"08:00 am",Minutes:480}, {Name:"08:30 am",Minutes:510}, {Name:"09:00 am",Minutes:540}, {Name:"09:30 am",Minutes:570}, 
+             {Name:"10:00 am",Minutes:600}, {Name:"10:30 am",Minutes:630}, {Name:"11:00 am",Minutes:660}, {Name:"11:30 am",Minutes:690}, 
+             {Name:"12:00 pm",Minutes:720}, {Name:"12:30 pm",Minutes:750}, {Name:"01:00 pm",Minutes:780}, {Name:"01:30 pm",Minutes:810},
+             {Name:"02:00 pm",Minutes:840}, {Name:"02:30 pm",Minutes:870}, {Name:"03:00 pm",Minutes:900}, {Name:"03:30 pm",Minutes:930},
+             {Name:"04:00 pm",Minutes:960}, {Name:"04:30 pm",Minutes:990}, {Name:"05:00 pm",Minutes:1020}, {Name:"05:30 pm",Minutes:1050},
+             {Name:"06:00 pm",Minutes:1080}, {Name:"06:30 pm",Minutes:1110}, {Name:"07:00 pm",Minutes:1140}, {Name:"07:30 pm",Minutes:1170},
+             {Name:"08:00 pm",Minutes:1200}, {Name:"08:30 pm",Minutes:1230}, {Name:"09:00 pm",Minutes:1260}, {Name:"09:30 pm",Minutes:1290},
+             {Name:"10:00 pm",Minutes:1320}, {Name:"10:30 pm",Minutes:1350}, {Name:"11:00 pm",Minutes:1380}, {Name:"11:30 pm",Minutes:1410}
+            ),
+            ClearCollect(ProgressTable,
+                {Row:1, Text: "Time, and title"}, {Row: 2, Text: "Response type"}, {Row: 3, Text: "Email access"}, {Row: 4, Text: "Contacts"}, {Row: 5, Text: "Review"})
+        
+        );
+        //gets user's calendar events for next 90 days, gets user's relevant people
+        Concurrent(
+            ClearCollect(FutureCalendarEvents, Office365.GetEventsCalendarViewV2(_myCalendarID, Text(Now(), UTC), Text(DateAdd(Now(), 90, Days))).value),
+            ClearCollect(MyPeople, RenameColumns(Office365Users.RelevantPeople(_myProfile.Id).value, 
+              "birthday", "Birthday", "companyName", "CompanyName", "department", "Department", "displayName", "DisplayName", "givenName", "GivenName", "id", "Id", "jobTitle",        "JobTitle", "officeLocation", "OfficeLocation", "userPrincipalName", "UserPrincipalName")
+            )
+        )
+        
+        /* May be useful as a start to retrieve whether an OOF is currently active. Incomplete though, and will not work if uncommented.
+        Set(_myMailTips, Office365.GetMailTips(_myProfile.UserPrincipalName));
+        Set(_currOOF, LookUp(FutureCalendarEvents, 
+            DateTimeValue(Start) <= Now() && DateTimeValue(End) > Now() && DateDiff(DateTimeValue(Start), DateTimeValue(End), Hours) >= 6 && !(_myProfile.UserPrincipalName in FutureCalendarEvents.RequiredAttendees) &&
+            !(_myProfile.UserPrincipalName in FutureCalendarEvents.OptionalAttendees)));
+        If(!IsBlank(_myMailTips.AutomaticReplies.Message) && !IsBlank(_currOOF), Set(_createdOOF, true))
+        */
+
+    AppConditional0 As AppConditional0:
+        App_INTERNAL_PROPERTY_NAME_0: =
+        App_INTERNAL_PROPERTY_NAME_1: =
+        App_INTERNAL_PROPERTY_NAME_2: =
+
